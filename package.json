@@ -2,12 +2,11 @@
 	"name": "potluck-bot",
 	"version": "1.0.0",
 	"description": "",
-	"main": "index.js",
 	"scripts": {
 		"build": "npx tsc",
-		"dev": "npx tsc -w",
+		"dev": "nodemon src/index.ts",
 		"prettier": "npx prettier --write .",
-    "lint": "npx eslint --fix .",
+		"lint": "npx eslint src/**/*.ts --fix ",
 		"start": "node server.js",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
@@ -27,10 +26,14 @@
 	},
 	"devDependencies": {
 		"@types/node": "^22.10.1",
+		"@typescript-eslint/eslint-plugin": "^8.17.0",
+		"@typescript-eslint/parser": "^8.17.0",
 		"eslint": "^9.16.0",
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-prettier": "^5.2.1",
+		"nodemon": "^3.1.7",
 		"prettier": "^3.4.2",
+		"ts-node": "^10.9.2",
 		"typescript": "^5.7.2"
 	}
 }
