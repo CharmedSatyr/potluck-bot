@@ -1,0 +1,36 @@
+{
+	"name": "potluck-bot",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"build": "npx tsc",
+		"dev": "npx tsc -w",
+		"prettier": "npx prettier --write .",
+    "lint": "npx eslint --fix .",
+		"start": "node server.js",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+ssh://git@github.com/CharmedSatyr/potluck-bot.git"
+	},
+	"author": "",
+	"license": "GPL-3.0",
+	"bugs": {
+		"url": "https://github.com/CharmedSatyr/potluck-bot/issues"
+	},
+	"homepage": "https://github.com/CharmedSatyr/potluck-bot#readme",
+	"dependencies": {
+		"discord.js": "^14.16.3",
+		"dotenv": "^16.4.7"
+	},
+	"devDependencies": {
+		"@types/node": "^22.10.1",
+		"eslint": "^9.16.0",
+		"eslint-config-prettier": "^9.1.0",
+		"eslint-plugin-prettier": "^5.2.1",
+		"prettier": "^3.4.2",
+		"typescript": "^5.7.2"
+	}
+}
