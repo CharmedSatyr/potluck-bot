@@ -12,6 +12,10 @@ const app = express();
 
 const PORT = process.env.PORT ?? 3000;
 
+app.get("/test", async (_req, res) => {
+	res.send({ success: true });
+});
+
 app.post(
 	"/interactions",
 	verifyKeyMiddleware(process.env.PUBLIC_KEY!),
