@@ -40,8 +40,8 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
 		.setLabel("Duration")
 		.setMinLength(1)
 		.setMaxLength(256)
-		.setPlaceholder("'2h', '2 hours 30 min', '1 day'")
-		.setRequired(true)
+		.setPlaceholder("'2h', '2 hours 30 min', '1 day', defaults to 1 hour")
+		.setRequired(false)
 		.setStyle(TextInputStyle.Short);
 
 	const locationInput = new TextInputBuilder()

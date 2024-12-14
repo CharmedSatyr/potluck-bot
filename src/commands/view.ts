@@ -1,9 +1,11 @@
 import {
 	ChatInputCommandInteraction,
 	EmbedBuilder,
+	MessageFlags,
 	SlashCommandBuilder,
 } from "discord.js";
 import formatDateTime from "../utilities/format-date-time";
+import buildBlurb from "../utilities/build-blurb";
 
 export const data = new SlashCommandBuilder()
 	.setName("view")
@@ -13,7 +15,10 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
 	const events = await interaction.guild?.scheduledEvents.fetch();
 
 	if (!events || events.size === 0) {
-		await interaction.reply("❌ No Potluck Quest events found.");
+		await interaction.reply({
+			content: "❌ No Potluck Quest events found.",
+			flags: MessageFlags.Ephemeral,
+		});
 		return;
 	}
 
@@ -25,7 +30,7 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
 		)
 		.map((event) => {
 			const removeBlurbAndGetCode = (description: string) => {
-				const blurb = "See details at https://potluck.quest/event/";
+				const blurb = buildBlurb("");
 				const blurbIndex = description.lastIndexOf(blurb);
 
 				if (blurbIndex === -1) {
@@ -59,7 +64,7 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
 				{
 					name: "Link",
 					value: code
-						? `[${code}](https://www.potluck.quest/events/${code})`
+						? `[${code}](https://www.potluck.quest/event/${code})`
 						: "Check the description",
 					inline: true,
 				},
