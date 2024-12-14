@@ -6,7 +6,7 @@ import {
 import formatDateTime from "../utilities/format-date-time";
 
 export const data = new SlashCommandBuilder()
-	.setName("events")
+	.setName("view")
 	.setDescription("View existing Potluck Quest events");
 
 const POTLUCK_QUEST_BOT_CREATOR_ID = "1314705751381643308";
@@ -65,7 +65,6 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
 						: "Check the description",
 					inline: true,
 				},
-				//{ name: "\u200B", value: "...", inline: false },
 			];
 		});
 
