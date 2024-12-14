@@ -1,6 +1,7 @@
 import "dotenv/config";
 import { REST, Routes } from "discord.js";
-import create from "./commands/create";
+import potluck from "./commands/potluck";
+import listEvents from "./commands/list-events";
 
 const rest = new REST({ version: "10" }).setToken(process.env.BOT_TOKEN!);
 
@@ -9,7 +10,7 @@ const rest = new REST({ version: "10" }).setToken(process.env.BOT_TOKEN!);
 		console.log("Started refreshing application (/) commands.");
 
 		await rest.put(Routes.applicationCommands(process.env.CLIENT_ID!), {
-			body: [create.toJSON()],
+			body: [potluck.toJSON(), listEvents.toJSON()],
 		});
 
 		console.log("Successfully reloaded application (/) commands.");
