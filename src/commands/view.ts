@@ -9,8 +9,6 @@ export const data = new SlashCommandBuilder()
 	.setName("view")
 	.setDescription("View existing Potluck Quest events");
 
-const POTLUCK_QUEST_BOT_CREATOR_ID = "1314705751381643308";
-
 export const execute = async (interaction: ChatInputCommandInteraction) => {
 	const events = await interaction.guild?.scheduledEvents.fetch();
 
@@ -22,7 +20,7 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
 	const fields = events
 		.filter(
 			(event) =>
-				event.creatorId === POTLUCK_QUEST_BOT_CREATOR_ID &&
+				event.creatorId === process.env.CLIENT_ID &&
 				(event.isScheduled() || event.isActive())
 		)
 		.map((event) => {
