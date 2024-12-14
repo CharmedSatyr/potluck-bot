@@ -1,7 +1,7 @@
 import { Router, Request, Response } from "express";
 import { InteractionType, InteractionResponseType } from "discord-interactions";
 import { handleCreateCommand, handleCreateEvent } from "../handlers/create";
-import { SlashCommands } from "../commands/slashCommands";
+import create from "../commands/create";
 
 const router = Router();
 
@@ -16,7 +16,7 @@ router.post("/", async (req: Request, res: Response) => {
 	if (type === InteractionType.APPLICATION_COMMAND) {
 		const { name } = data;
 
-		if (name === SlashCommands.CREATE) {
+		if (name === create.name) {
 			await handleCreateCommand(req, res);
 			return;
 		}

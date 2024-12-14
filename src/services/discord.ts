@@ -1,4 +1,4 @@
-import client from "../discord-client";
+import client from "../clients/discord";
 
 export async function createDiscordEvent(
 	guildId: string,
@@ -9,7 +9,7 @@ export async function createDiscordEvent(
 	startTime: string
 ) {
 	try {
-		const guild = await client.guilds.fetch(guildId); // Fetch the guild by ID
+		const guild = await client.guilds.fetch(guildId);
 
 		const event = await guild.scheduledEvents.create({
 			name: title,

@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { REST, Routes } from "discord.js";
-import { SlashCommands } from "./commands/slashCommands";
+import create from "./commands/create";
 
 const rest = new REST({ version: "10" }).setToken(process.env.BOT_TOKEN!);
 
@@ -9,12 +9,7 @@ const rest = new REST({ version: "10" }).setToken(process.env.BOT_TOKEN!);
 		console.log("Started refreshing application (/) commands.");
 
 		await rest.put(Routes.applicationCommands(process.env.CLIENT_ID!), {
-			body: [
-				{
-					name: SlashCommands.CREATE,
-					description: "Create a new event",
-				},
-			],
+			body: [create.toJSON()],
 		});
 
 		console.log("Successfully reloaded application (/) commands.");

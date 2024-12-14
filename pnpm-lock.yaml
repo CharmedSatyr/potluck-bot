@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@discordjs/builders':
+        specifier: ^1.9.0
+        version: 1.9.0
       discord-interactions:
         specifier: ^4.1.0
         version: 4.1.0
