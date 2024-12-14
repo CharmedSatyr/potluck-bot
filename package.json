@@ -4,11 +4,11 @@
 	"description": "",
 	"scripts": {
 		"build": "npx tsc",
-		"dev": "nodemon src/app.ts",
+		"dev": "nodemon src/server.ts",
 		"prettier": "npx prettier --write .",
 		"lint": "npx eslint src/**/*.ts --fix ",
 		"register": "npx ts-node src/register.ts",
-		"start": "node dist/app.js",
+		"start": "node dist/server.js",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"repository": {
@@ -23,6 +23,7 @@
 	"homepage": "https://github.com/CharmedSatyr/potluck-bot#readme",
 	"dependencies": {
 		"discord-interactions": "^4.1.0",
+		"discord.js": "^14.16.3",
 		"dotenv": "^16.4.7",
 		"express": "^4.21.2"
 	},

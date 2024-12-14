@@ -1,60 +1,14 @@
 import "dotenv/config";
-import {
-	InteractionResponseType,
-	InteractionType,
-	verifyKeyMiddleware,
-} from "discord-interactions";
+import { verifyKeyMiddleware } from "discord-interactions";
 import express from "express";
-import { handleCreateCommand, handleCreateEvent } from "./handlers/create";
-import { SlashCommands } from "./commands";
+import interactionsRouter from "./routes/interactions";
 
 const app = express();
 
-const PORT = process.env.PORT ?? 3001;
-
-app.get("/test", async (_req, res) => {
-	res.send({ success: true });
-});
-
-app.post(
+app.use(
 	"/interactions",
 	verifyKeyMiddleware(process.env.PUBLIC_KEY!),
-	async (req, res) => {
-		const { type, id, data } = req.body;
-
-		if (type === InteractionType.PING) {
-			res.send({ type: InteractionResponseType.PONG });
-		}
-
-		if (type === InteractionType.APPLICATION_COMMAND) {
-			const { name } = data;
-
-			if (name === SlashCommands.CREATE) {
-				await handleCreateCommand(req, res);
-
-				return;
-			}
-		}
-
-		if (type === InteractionType.MODAL_SUBMIT) {
-			const { custom_id } = data;
-
-			if (custom_id === "create-event-modal") {
-				await handleCreateEvent(req, res);
-
-				return;
-			}
-		}
-
-		res.send({
-			type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-			data: {
-				content: `${type} ${id} ${JSON.stringify(data)}`,
-			},
-		});
-	}
+	interactionsRouter
 );
 
-app.listen(PORT, () => {
-	console.log("[server]: Starting server on port", PORT);
-});
+export default app;

@@ -4,8 +4,9 @@ import {
 	InteractionResponseType,
 	MessageComponentTypes,
 } from "discord-interactions";
-import { discordRequest } from "../discord-request";
+import { createDiscordEvent } from "../services/discord";
 
+// Modal structure for event creation
 const createEventModal = {
 	title: "Create an Event",
 	custom_id: "create-event-modal",
@@ -92,6 +93,7 @@ export const handleCreateCommand = async (
 	_req: Request,
 	res: Response
 ): Promise<void> => {
+	// Return modal to user for event creation
 	res.send({
 		type: InteractionResponseType.MODAL,
 		data: createEventModal,
@@ -105,13 +107,14 @@ export const handleCreateEvent = async (
 	const { data, guild, member } = req.body;
 
 	try {
-		const endpoint = `/guilds/${guild.id}/scheduled-events`;
-
+		// Extract values from the modal submission
 		const modalValues = data.components.map(
 			(c: {
 				components: [{ custom_id: string; value: string }];
 				type: number;
-			}) => ({ [c.components[0].custom_id]: c.components[0].value })
+			}) => ({
+				[c.components[0].custom_id]: c.components[0].value,
+			})
 		);
 
 		const { title, startDate, startTime, location, description } =
@@ -123,7 +126,7 @@ export const handleCreateEvent = async (
 				{}
 			);
 
-		// Make a POTLUCK.QUEST event
+		// Create event in Potluck.Quest
 		const targetUrl = process.env.POTLUCK_CREATE_EVENT_API_URL!;
 		const result = await fetch(targetUrl, {
 			method: "POST",
@@ -152,6 +155,7 @@ export const handleCreateEvent = async (
 						flags: InteractionResponseFlags.EPHEMERAL,
 					},
 				});
+				return;
 			}
 
 			if (result.status === 401) {
@@ -162,8 +166,8 @@ export const handleCreateEvent = async (
 						flags: InteractionResponseFlags.EPHEMERAL,
 					},
 				});
+				return;
 			}
-			return;
 		}
 
 		const { code } = await result.json();
@@ -179,29 +183,31 @@ export const handleCreateEvent = async (
 			return;
 		}
 
-		// Make a DISCORD event
-		await discordRequest(endpoint, {
-			method: "POST",
-			body: {
-				channel_id: null, // Required `null` for EXTERNAL entity_type
-				entity_metadata: {
-					location,
+		// Create event in Discord
+		const discordEvent = await createDiscordEvent(
+			guild.id,
+			title,
+			description,
+			location,
+			startDate,
+			startTime
+		);
+
+		if (!discordEvent) {
+			res.send({
+				type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+				data: {
+					content: `<@${member.user.id}> failed to create Discord event for ${title}. Please try again.`,
+					flags: InteractionResponseFlags.EPHEMERAL,
 				},
-				name: title,
-				privacy_level: 2, // GUILD
-				scheduled_start_time: "2024-12-31T23:59:59Z", // TODO
-				scheduled_end_time: "2025-01-01T23:59:59Z", // TODO
-				description,
-				entity_type: 3, // EXTERNAL
-				image: undefined, // TBD
-				recurrence_rule: undefined,
-			},
-		});
+			});
+			return;
+		}
 
 		res.send({
 			type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
 			data: {
-				content: `<@${member.user.id}> successfully created a new event, ${title}. Check it out at https://potluck.quest/event/${code}.`,
+				content: `<@${member.user.id}> successfully created a new event, ${title}. Check it out: https://potluck.quest/event/${code}.`,
 			},
 		});
 	} catch (err) {

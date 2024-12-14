@@ -1,27 +1,24 @@
 import "dotenv/config";
+import { REST, Routes } from "discord.js";
+import { SlashCommands } from "./commands/slashCommands";
 
-import { Command } from "./@types/command";
-import { discordRequest } from "./discord-request";
-import { CREATE_COMMAND } from "./commands";
+const rest = new REST({ version: "10" }).setToken(process.env.BOT_TOKEN!);
 
-const installCommands = async (appId: string, commands: Command[]) => {
-	/**
-	 * Bulk overwrite endpoint: https://discord.com/developers/docs/interactions/application-commands#bulk-overwrite-global-application-commands
-	 */
-	const endpoint = `applications/${appId}/commands`;
-
+(async () => {
 	try {
-		const result = await discordRequest(endpoint, {
-			method: "PUT",
-			body: commands,
+		console.log("Started refreshing application (/) commands.");
+
+		await rest.put(Routes.applicationCommands(process.env.CLIENT_ID!), {
+			body: [
+				{
+					name: SlashCommands.CREATE,
+					description: "Create a new event",
+				},
+			],
 		});
 
-		console.log(await result.json());
-	} catch (err) {
-		console.error(err);
+		console.log("Successfully reloaded application (/) commands.");
+	} catch (error) {
+		console.error(error);
 	}
-};
-
-const ALL_COMMANDS: Command[] = [CREATE_COMMAND];
-
-installCommands(process.env.APP_ID!, ALL_COMMANDS);
+})();
