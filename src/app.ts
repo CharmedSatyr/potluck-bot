@@ -1,6 +1,6 @@
 import "dotenv/config";
 import express from "express";
-import "./clients/discord";
+import "./client";
 
 const app = express();
 

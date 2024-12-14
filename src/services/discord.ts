@@ -1,4 +1,4 @@
-import client from "../clients/discord";
+import client from "../client";
 
 export async function createDiscordEvent(
 	guildId: string,
