@@ -1,5 +1,10 @@
+import {
+	GuildScheduledEventEntityType,
+	GuildScheduledEventPrivacyLevel,
+} from "discord.js";
 import client from "../client";
 
+// TODO: zod
 type DiscordEventData = {
 	guildId: string;
 	title: string;
@@ -7,6 +12,8 @@ type DiscordEventData = {
 	location: string;
 	startDate: string;
 	startTime: string;
+	endDate: string;
+	endTime: string;
 };
 
 export const createDiscordEvent = async (data: DiscordEventData) => {
@@ -14,16 +21,16 @@ export const createDiscordEvent = async (data: DiscordEventData) => {
 		const guild = await client.guilds.fetch(data.guildId);
 
 		const event = await guild.scheduledEvents.create({
-			name: data.title,
 			description: data.description,
-			scheduledEndTime: "2025-01-10T23:00:00Z", // TODO
-			scheduledStartTime: new Date(`${data.startDate} ${data.startTime}`),
-			privacyLevel: 2, // GUILD
-			entityType: 3, // EXTERNAL event type
 			entityMetadata: {
 				location: data.location,
 			},
+			entityType: GuildScheduledEventEntityType.External,
 			image: undefined, // TODO
+			name: data.title,
+			privacyLevel: GuildScheduledEventPrivacyLevel.GuildOnly,
+			scheduledEndTime: new Date(`${data.endDate} ${data.endTime}`),
+			scheduledStartTime: new Date(`${data.startDate} ${data.startTime}`),
 		});
 
 		return event;

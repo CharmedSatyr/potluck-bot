@@ -1,55 +1,80 @@
 import { MessageFlags, ModalSubmitInteraction } from "discord.js";
 import { createPotluckQuestEvent } from "../../services/potluck-quest";
 import { createDiscordEvent } from "../../services/discord";
-import buildBlurb from "../../utilities/build-blurb";
+import buildDescriptionBlurb from "../../utilities/description-blurb";
+import { parseDateTimeInputForServices } from "../../utilities/date-time";
 
 export const data = { customId: "plan-event-modal" };
 
 export const execute = async (interaction: ModalSubmitInteraction) => {
+	if (!interaction.guild?.id) {
+		await interaction.reply({
+			content: `<@${interaction.user.id}> Please ensure you're creating the event on a server with **Potluck Quest Bot** installed and try again.`,
+			flags: MessageFlags.Ephemeral,
+		});
+		return;
+	}
+
 	const title = interaction.fields.getTextInputValue("plan-event-title");
 	const dateTime = interaction.fields.getTextInputValue("plan-event-dateTime");
-	const duration = interaction.fields.getTextInputValue("plan-event-duration");
 	const location = interaction.fields.getTextInputValue("plan-event-location");
 	const description = interaction.fields.getTextInputValue(
 		"plan-event-description"
 	);
 
+	const parsedDateTime = parseDateTimeInputForServices(dateTime);
+
+	if (!parsedDateTime) {
+		await interaction.reply({
+			content: `<@${interaction.user.id}> failed to create event **${title}**. Please format the date and time clearly and try again.`,
+			flags: MessageFlags.Ephemeral,
+		});
+		return;
+	}
+
+	const { startDate, startTime, endDate, endTime } = parsedDateTime;
+
 	const code = await createPotluckQuestEvent({
 		description,
 		discordUserId: interaction.user.id,
 		location,
-		startDate: "2025-12-10",
-		startTime: "12:00:00",
+		startDate,
+		startTime,
 		title,
 	});
 
 	if (!code) {
-		interaction.reply({
+		await interaction.reply({
 			content: `<@${interaction.user.id}> failed to create event **${title}**. Please try again.`,
 			flags: MessageFlags.Ephemeral,
 		});
 		return;
 	}
 
-	const augmentedDescription = description.concat("\n", buildBlurb(code));
+	const augmentedDescription = description.concat(
+		"\n",
+		buildDescriptionBlurb(code)
+	);
 
 	const discordEvent = await createDiscordEvent({
-		guildId: interaction.guild?.id ?? "",
+		guildId: interaction.guild?.id,
 		title,
 		description: augmentedDescription,
 		location,
-		startDate: "2025-01-10",
-		startTime: "12:00:00",
+		startDate,
+		startTime,
+		endDate,
+		endTime,
 	});
 
 	if (!discordEvent) {
-		interaction.reply({
+		await interaction.reply({
 			content: `<@${interaction.user.id}> failed to create event **${title}**. Make sure you're logged in to [Potluck Quest](https://potluck.quest) and try again.`,
 			flags: MessageFlags.Ephemeral,
 		});
 	}
 
-	interaction.reply({
-		content: `<@${interaction.user.id}> successfully created new event **${title}**. Check it out at [Potluck Quest](https://potluck.quest/event/${code}) with code **${code}**.`,
+	await interaction.reply({
+		content: `<@${interaction.user.id}> successfully created new event **${title}**. Check it out at [**${code} | Potluck Quest**](https://potluck.quest/event/${code}).`,
 	});
 };

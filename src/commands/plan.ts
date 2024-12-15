@@ -21,7 +21,7 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
 		.setCustomId("plan-event-title")
 		.setLabel("Title")
 		.setMinLength(1)
-		.setMaxLength(256)
+		.setMaxLength(100)
 		.setPlaceholder("What's this adventure?")
 		.setRequired(true)
 		.setStyle(TextInputStyle.Short);
@@ -31,17 +31,8 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
 		.setLabel("Date and Time")
 		.setMinLength(1)
 		.setMaxLength(256)
-		.setPlaceholder("8/21 6pm")
+		.setPlaceholder("12/31 8pm - 10pm, Feb 5 at 9am (defaults to 1 hour)")
 		.setRequired(true)
-		.setStyle(TextInputStyle.Short);
-
-	const durationInput = new TextInputBuilder()
-		.setCustomId("plan-event-duration")
-		.setLabel("Duration")
-		.setMinLength(1)
-		.setMaxLength(256)
-		.setPlaceholder("'2h', '2 hours 30 min', '1 day', defaults to 1 hour")
-		.setRequired(false)
 		.setStyle(TextInputStyle.Short);
 
 	const locationInput = new TextInputBuilder()
@@ -65,7 +56,6 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
 	const actionRows = [
 		titleInput,
 		dateTimeInput,
-		durationInput,
 		locationInput,
 		descriptionInput,
 	].map((input) =>
