@@ -21,7 +21,7 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
 		.setCustomId("plan-event-title")
 		.setLabel("Title")
 		.setMinLength(1)
-		.setMaxLength(256)
+		.setMaxLength(100)
 		.setPlaceholder("What's this adventure?")
 		.setRequired(true)
 		.setStyle(TextInputStyle.Short);
