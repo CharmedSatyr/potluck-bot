@@ -3,17 +3,29 @@ import { DateTime } from "luxon";
 
 export const formatDateTimeForView = (date: Date | null): string => {
 	if (!date) {
-		return "Date ? ・ ??:??";
+		return " ・ ";
 	}
 
-	const dt = DateTime.fromJSDate(date);
+	const day = date.getDate();
+	const month = date.toLocaleString("en-US", { month: "short" });
+	const weekday = date.toLocaleString("en-US", { weekday: "short" });
 
-	const dayWithSuffix = dt.toFormat("d") + dt.toFormat("o"); // "o" adds the ordinal suffix
+	const getOrdinalSuffix = (n: number): string => {
+		if (n % 10 === 1 && n % 100 !== 11) return "st";
+		if (n % 10 === 2 && n % 100 !== 12) return "nd";
+		if (n % 10 === 3 && n % 100 !== 13) return "rd";
+		return "th";
+	};
 
-	const formattedDate = dt.toFormat("ccc LLL"); // "ccc" = short weekday, "LLL" = short month
-	const formattedTime = dt.toFormat("HH:mm"); // 24-hour time format
+	const dayWithSuffix = `${day}${getOrdinalSuffix(day)}`;
 
-	return `${formattedDate} ${dayWithSuffix}・${formattedTime}`;
+	const time = date.toLocaleTimeString("en-US", {
+		hour: "2-digit",
+		minute: "2-digit",
+		hour12: false,
+	});
+
+	return `${weekday} ${month} ${dayWithSuffix}・${time}`;
 };
 
 export const parseDateTimeInputForServices = (
