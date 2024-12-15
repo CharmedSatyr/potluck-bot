@@ -1,3 +1,4 @@
+// TODO: zod
 type EventData = {
 	description: string;
 	discordUserId: string;

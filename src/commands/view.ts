@@ -4,8 +4,8 @@ import {
 	MessageFlags,
 	SlashCommandBuilder,
 } from "discord.js";
-import formatDateTime from "../utilities/format-date-time";
-import buildBlurb from "../utilities/build-blurb";
+import { formatDateTimeForView } from "../utilities/date-time";
+import buildDescriptionBlurb from "../utilities/build-description-blurb";
 
 export const data = new SlashCommandBuilder()
 	.setName("view")
@@ -30,7 +30,7 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
 		)
 		.map((event) => {
 			const removeBlurbAndGetCode = (description: string) => {
-				const blurb = buildBlurb("");
+				const blurb = buildDescriptionBlurb("");
 				const blurbIndex = description.lastIndexOf(blurb);
 
 				if (blurbIndex === -1) {
@@ -58,7 +58,7 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
 				},
 				{
 					name: "When",
-					value: formatDateTime(event.scheduledStartAt),
+					value: formatDateTimeForView(event.scheduledStartAt),
 					inline: true,
 				},
 				{
