@@ -5,7 +5,7 @@ import {
 	SlashCommandBuilder,
 } from "discord.js";
 import { formatDateTimeForView } from "../utilities/date-time";
-import buildDescriptionBlurb from "../utilities/build-description-blurb";
+import { removeBlurbAndGetCode } from "../utilities/description-blurb";
 
 export const data = new SlashCommandBuilder()
 	.setName("view")
@@ -14,7 +14,7 @@ export const data = new SlashCommandBuilder()
 export const execute = async (interaction: ChatInputCommandInteraction) => {
 	const events = await interaction.guild?.scheduledEvents.fetch();
 
-	if (!events || events.size === 0) {
+	if (!events || events.size === 0 || !interaction.guild) {
 		await interaction.reply({
 			content: "❌ No Potluck Quest events found.",
 			flags: MessageFlags.Ephemeral,
@@ -29,51 +29,42 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
 				(event.isScheduled() || event.isActive())
 		)
 		.map((event) => {
-			const removeBlurbAndGetCode = (description: string) => {
-				const blurb = buildDescriptionBlurb("");
-				const blurbIndex = description.lastIndexOf(blurb);
-
-				if (blurbIndex === -1) {
-					return { code: "", description };
-				}
-
-				const cleanedDescription = description.slice(0, blurbIndex).trim();
-				const code = description?.slice(blurbIndex + blurb.length).trim();
-
-				return {
-					code,
-					description: cleanedDescription,
-				};
-			};
-
-			const { code, description } = removeBlurbAndGetCode(
-				event.description ?? ""
-			);
+			const { code } = removeBlurbAndGetCode(event.description);
 
 			return [
 				{
-					name: event.name,
-					value: description || "No description provided",
+					name: "\u200B",
+					value: `**${event.name}**`,
 					inline: true,
 				},
 				{
-					name: "When",
+					name: "\u200B",
 					value: formatDateTimeForView(event.scheduledStartAt),
 					inline: true,
 				},
 				{
-					name: "Link",
+					name: "\u200B",
 					value: code
 						? `[${code}](https://www.potluck.quest/event/${code})`
-						: "Check the description",
+						: "\u200B",
 					inline: true,
 				},
 			];
 		});
 
+	// Add headings above the first row of fields.
+	fields[0][0].name = "Event";
+	fields[0][1].name = "Date/Time";
+	fields[0][2].name = "Link";
+
 	const embed = new EmbedBuilder()
-		.setTitle("Upcoming Potluck Quest Events")
-		.addFields(fields.flat());
+		.setTitle(`Upcoming Potluck Quest Events`)
+		.addFields(fields.flat())
+		.setTimestamp()
+		.setAuthor({
+			name: interaction.guild.name,
+			iconURL: interaction.guild.iconURL() ?? undefined,
+		});
 
 	await interaction.reply({
 		embeds: [embed],
