@@ -1,7 +1,7 @@
 import { MessageFlags, ModalSubmitInteraction } from "discord.js";
 import { createPotluckQuestEvent } from "../../services/potluck-quest";
 import { createDiscordEvent } from "../../services/discord";
-import buildDescriptionBlurb from "../../utilities/build-description-blurb";
+import buildDescriptionBlurb from "../../utilities/description-blurb";
 import { parseDateTimeInputForServices } from "../../utilities/date-time";
 
 export const data = { customId: "plan-event-modal" };
