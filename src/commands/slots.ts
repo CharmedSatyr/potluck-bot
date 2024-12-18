@@ -7,6 +7,7 @@ import {
 	SlashCommandBuilder,
 } from "discord.js";
 
+// TODO: Add cooldowns https://discordjs.guide/additional-features/cooldowns.html#resulting-code
 export const data = new SlashCommandBuilder()
 	.setName("slots")
 	.setDescription("See slots for a Potluck Quest event")

@@ -7,6 +7,7 @@ import {
 import { formatDateTimeForView } from "../utilities/date-time";
 import { removeBlurbAndGetCode } from "../utilities/description-blurb";
 
+// TODO: Add cooldowns https://discordjs.guide/additional-features/cooldowns.html#resulting-code
 export const data = new SlashCommandBuilder()
 	.setName("view")
 	.setDescription("View existing Potluck Quest events");

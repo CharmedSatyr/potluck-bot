@@ -8,6 +8,7 @@ import {
 	TextInputStyle,
 } from "discord.js";
 
+// TODO: Add cooldowns https://discordjs.guide/additional-features/cooldowns.html#resulting-code
 export const data = new SlashCommandBuilder()
 	.setName("plan")
 	.setDescription("Plan a new Potluck Quest event");
