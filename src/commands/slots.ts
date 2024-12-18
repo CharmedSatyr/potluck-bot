@@ -63,6 +63,7 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
 	let currentRow = new ActionRowBuilder<ButtonBuilder>();
 
 	slots
+		// Sort completed slots to end
 		.sort((a, b) => {
 			if (b.needed === 0) {
 				return -1;
