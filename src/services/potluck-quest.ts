@@ -12,7 +12,7 @@ export const createPotluckQuestEvent = async (
 	data: EventData
 ): Promise<string | null> => {
 	try {
-		const result = await fetch(process.env.POTLUCK_CREATE_EVENT_API_URL!, {
+		const result = await fetch(process.env.POTLUCK_EVENT_API_URL!, {
 			method: "POST",
 			body: JSON.stringify(data),
 		});

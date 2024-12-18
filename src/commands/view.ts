@@ -55,7 +55,7 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
 	// Add headings above the first row of fields.
 	fields[0][0].name = "Event";
 	fields[0][1].name = "Date/Time";
-	fields[0][2].name = "Link";
+	fields[0][2].name = "Code";
 
 	const embed = new EmbedBuilder()
 		.setTitle(`Upcoming Potluck Quest Events`)
