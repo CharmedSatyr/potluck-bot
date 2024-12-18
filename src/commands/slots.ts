@@ -1,4 +1,7 @@
 import {
+	ActionRowBuilder,
+	ButtonBuilder,
+	ButtonStyle,
 	ChatInputCommandInteraction,
 	MessageFlags,
 	SlashCommandBuilder,
@@ -35,7 +38,61 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
 		process.env.POTLUCK_SLOTS_API_URL! + "?" + params.toString()
 	);
 
-	const json = await result.json();
+	if (!result.ok) {
+		await interaction.reply({
+			content: `Failed to retrieve slots for event code ${code}`,
+			flags: MessageFlags.Ephemeral,
+		});
+		return;
+	}
 
-	await interaction.reply(`Looked up code ${code} and got ${json.message}`);
+	// TODO: Share proper types
+	type Slot = { item: string; needed: number };
+
+	const { slots }: { slots: Slot[] } = await result.json();
+
+	if (slots.length === 0) {
+		await interaction.reply({
+			content: `No slots have been created for [${code}](https://potluck.quest/event/${code}). Ask the host to create some!`,
+			flags: MessageFlags.Ephemeral,
+		});
+		return;
+	}
+
+	const rows: ActionRowBuilder<ButtonBuilder>[] = [];
+	let currentRow = new ActionRowBuilder<ButtonBuilder>();
+
+	slots
+		.sort((a, b) => {
+			if (b.needed === 0) {
+				return -1;
+			}
+
+			if (a.needed === 0) {
+				return 1;
+			}
+
+			return 0;
+		})
+		.forEach((item, index) => {
+			const button = new ButtonBuilder()
+				.setCustomId(`item-${index}`)
+				.setLabel(`${item.needed}: ${item.item}`)
+				.setStyle(ButtonStyle.Primary)
+				.setDisabled(item.needed <= 0);
+
+			currentRow.addComponents(button);
+
+			if ((index + 1) % 5 === 0 || index === slots.length - 1) {
+				rows.push(currentRow);
+				currentRow = new ActionRowBuilder<ButtonBuilder>();
+			}
+		});
+
+	await interaction.reply({
+		content:
+			"Here's how many of each item is still needed. What would you like to bring?",
+		components: rows,
+		flags: MessageFlags.Ephemeral,
+	});
 };
