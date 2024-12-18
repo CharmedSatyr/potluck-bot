@@ -47,7 +47,7 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
 	}
 
 	// TODO: Share proper types
-	type Slot = { item: string; needed: number };
+	type Slot = { id: string; item: string; needed: number };
 
 	const { slots }: { slots: Slot[] } = await result.json();
 
@@ -75,12 +75,12 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
 
 			return 0;
 		})
-		.forEach((item, index) => {
+		.forEach((slot, index) => {
 			const button = new ButtonBuilder()
-				.setCustomId(`item-${index}`)
-				.setLabel(`${item.needed}: ${item.item}`)
+				.setCustomId(slot.id)
+				.setLabel(`${slot.needed}: ${slot.item}`)
 				.setStyle(ButtonStyle.Primary)
-				.setDisabled(item.needed <= 0);
+				.setDisabled(slot.needed <= 0);
 
 			currentRow.addComponents(button);
 
