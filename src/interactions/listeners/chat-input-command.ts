@@ -1,6 +1,6 @@
 import { CacheType, Interaction, MessageFlags } from "discord.js";
 
-export const handler = async (interaction: Interaction<CacheType>) => {
+export const listener = async (interaction: Interaction<CacheType>) => {
 	if (!interaction.isChatInputCommand()) {
 		return;
 	}
