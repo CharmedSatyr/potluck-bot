@@ -7,6 +7,7 @@ import {
 	TextInputBuilder,
 	TextInputStyle,
 } from "discord.js";
+import { CustomId } from "../constants";
 
 // TODO: Add cooldowns https://discordjs.guide/additional-features/cooldowns.html#resulting-code
 export const data = new SlashCommandBuilder()
@@ -15,11 +16,11 @@ export const data = new SlashCommandBuilder()
 
 export const execute = async (interaction: ChatInputCommandInteraction) => {
 	const modal = new ModalBuilder()
-		.setCustomId("plan-event-modal")
+		.setCustomId(CustomId.PLAN_EVENT_MODAL)
 		.setTitle("Plan an Event");
 
 	const titleInput = new TextInputBuilder()
-		.setCustomId("plan-event-title")
+		.setCustomId(CustomId.PLAN_EVENT_TITLE)
 		.setLabel("Title")
 		.setMinLength(1)
 		.setMaxLength(100)
@@ -28,7 +29,7 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
 		.setStyle(TextInputStyle.Short);
 
 	const dateTimeInput = new TextInputBuilder()
-		.setCustomId("plan-event-dateTime")
+		.setCustomId(CustomId.PLAN_EVENT_DATETIME)
 		.setLabel("Date and Time")
 		.setMinLength(1)
 		.setMaxLength(256)
@@ -37,7 +38,7 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
 		.setStyle(TextInputStyle.Short);
 
 	const locationInput = new TextInputBuilder()
-		.setCustomId("plan-event-location")
+		.setCustomId(CustomId.PLAN_EVENT_LOCATION)
 		.setLabel("Location")
 		.setMinLength(1)
 		.setMaxLength(256)
@@ -46,7 +47,7 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
 		.setStyle(TextInputStyle.Short);
 
 	const descriptionInput = new TextInputBuilder()
-		.setCustomId("plan-event-description")
+		.setCustomId(CustomId.PLAN_EVENT_DESCRIPTION)
 		.setLabel("Description")
 		.setMinLength(1)
 		.setMaxLength(256)

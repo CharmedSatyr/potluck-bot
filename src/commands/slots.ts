@@ -6,6 +6,7 @@ import {
 	MessageFlags,
 	SlashCommandBuilder,
 } from "discord.js";
+import { DELIMITER, CustomId } from "../constants";
 
 // TODO: Add cooldowns https://discordjs.guide/additional-features/cooldowns.html#resulting-code
 export const data = new SlashCommandBuilder()
@@ -23,15 +24,17 @@ export const data = new SlashCommandBuilder()
 	);
 
 export const execute = async (interaction: ChatInputCommandInteraction) => {
-	const code = interaction.options.getString("code");
+	const input = interaction.options.getString("code");
 
-	if (!code) {
+	if (!input) {
 		await interaction.reply({
 			content: "Potluck Quest event code required",
 			flags: MessageFlags.Ephemeral,
 		});
 		return;
 	}
+
+	const code = input.toUpperCase();
 
 	const params = new URLSearchParams({ code });
 
@@ -78,7 +81,9 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
 		})
 		.forEach((slot, index) => {
 			const button = new ButtonBuilder()
-				.setCustomId(slot.id)
+				.setCustomId(
+					CustomId.CLICK_SLOT_COMMITMENT.concat(DELIMITER).concat(slot.id)
+				)
 				.setLabel(`${slot.needed}: ${slot.item}`)
 				.setStyle(ButtonStyle.Primary)
 				.setDisabled(slot.needed <= 0);

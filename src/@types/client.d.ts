@@ -2,7 +2,7 @@ import {
 	Client,
 	Collection,
 	CommandInteraction,
-	ModalSubmitInteraction,
+	Interaction,
 	SlashCommandBuilder,
 } from "discord.js";
 
@@ -13,7 +13,7 @@ interface Command {
 
 interface Handler {
 	data: { customId: string };
-	execute: (interaction: ModalSubmitInteraction) => Promise<void>;
+	execute: (interaction: Interaction) => Promise<void>;
 }
 
 declare module "discord.js" {
