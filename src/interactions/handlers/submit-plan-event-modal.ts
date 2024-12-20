@@ -37,7 +37,7 @@ export const execute = async (interaction: ModalSubmitInteraction) => {
 
 	if (!parsedDateTime) {
 		await interaction.reply({
-			content: `<@${interaction.user.id}> failed to create event **${title}**. Please format the date and time clearly and try again.`,
+			content: `<@${interaction.user.id}> We failed to create **${title}**. Please format the date and time clearly and try again.`,
 			flags: MessageFlags.Ephemeral,
 		});
 		return;
@@ -56,7 +56,7 @@ export const execute = async (interaction: ModalSubmitInteraction) => {
 
 	if (!code) {
 		await interaction.reply({
-			content: `<@${interaction.user.id}> failed to create event **${title}**. Please try again.`,
+			content: `<@${interaction.user.id}> We failed to create event **${title}**. Make sure you have an account on [Potluck Quest](https://potluck.quest) and try again.`,
 			flags: MessageFlags.Ephemeral,
 		});
 		return;
@@ -80,7 +80,7 @@ export const execute = async (interaction: ModalSubmitInteraction) => {
 
 	if (!discordEvent) {
 		await interaction.reply({
-			content: `<@${interaction.user.id}> failed to create event **${title}**. Make sure you're logged in to [Potluck Quest](https://potluck.quest) and try again.`,
+			content: `<@${interaction.user.id}> We failed to create **${title}**. Please try again.`,
 			flags: MessageFlags.Ephemeral,
 		});
 		return;
