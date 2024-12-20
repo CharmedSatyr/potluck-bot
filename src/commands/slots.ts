@@ -7,6 +7,7 @@ import {
 	SlashCommandBuilder,
 } from "discord.js";
 import { DELIMITER, CustomId } from "../constants";
+import { getSlots } from "../services/potluck-quest";
 
 // TODO: Add cooldowns https://discordjs.guide/additional-features/cooldowns.html#resulting-code
 export const data = new SlashCommandBuilder()
@@ -34,30 +35,19 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
 		return;
 	}
 
-	const code = input.toUpperCase();
+	const slots = await getSlots(input);
 
-	const params = new URLSearchParams({ code });
-
-	const result = await fetch(
-		process.env.POTLUCK_SLOTS_API_URL! + "?" + params.toString()
-	);
-
-	if (!result.ok) {
+	if (!slots) {
 		await interaction.reply({
-			content: `Failed to retrieve slots for event code ${code}`,
+			content: `Failed to retrieve slots for event code ${input}`,
 			flags: MessageFlags.Ephemeral,
 		});
 		return;
 	}
 
-	// TODO: Share proper types
-	type Slot = { id: string; item: string; needed: number };
-
-	const { slots }: { slots: Slot[] } = await result.json();
-
 	if (slots.length === 0) {
 		await interaction.reply({
-			content: `No slots have been created for [${code}](https://potluck.quest/event/${code}). Ask the host to create some!`,
+			content: `No slots have been created for [${input}](https://potluck.quest/event/${input}). Ask the host to create some!`,
 			flags: MessageFlags.Ephemeral,
 		});
 		return;

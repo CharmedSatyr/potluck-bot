@@ -1,6 +1,6 @@
 import { MessageFlags, ModalSubmitInteraction } from "discord.js";
-import { createPotluckQuestEvent } from "../../services/potluck-quest";
-import { createDiscordEvent } from "../../services/discord";
+import { createEvent as createPotluckQuestEvent } from "../../services/potluck-quest";
+import { createEvent as createDiscordEvent } from "../../services/discord";
 import buildDescriptionBlurb from "../../utilities/description-blurb";
 import { parseDateTimeInputForServices } from "../../utilities/date-time";
 

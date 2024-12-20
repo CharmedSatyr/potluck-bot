@@ -1,16 +1,17 @@
 import { CacheType, Interaction, MessageFlags } from "discord.js";
+import { DELIMITER } from "../../constants";
 
 export const listener = async (interaction: Interaction<CacheType>) => {
 	if (!interaction.isModalSubmit()) {
 		return;
 	}
 
-	const handler = interaction.client.handlers.get(interaction.customId);
+	const parsedCustomId = interaction.customId.split(DELIMITER)[0];
+
+	const handler = interaction.client.handlers.get(parsedCustomId);
 
 	if (!handler) {
-		console.error(
-			`No modal customId matching ${interaction.customId} was found.`
-		);
+		console.error(`No modal customId matching ${parsedCustomId} was found.`);
 		return;
 	}
 

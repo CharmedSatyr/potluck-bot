@@ -16,7 +16,7 @@ type DiscordEventData = {
 	endTime: string;
 };
 
-export const createDiscordEvent = async (data: DiscordEventData) => {
+export const createEvent = async (data: DiscordEventData) => {
 	try {
 		const guild = await client.guilds.fetch(data.guildId);
 
