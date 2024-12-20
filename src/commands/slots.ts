@@ -107,7 +107,7 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
 		await prompt.delete();
 	} catch (err) {
 		await interaction.editReply({
-			content: "Confirmation not received within 1 minute. Cancelling...",
+			content: "Confirmation not received within 1 minute. Please try again.",
 			components: [],
 		});
 	}

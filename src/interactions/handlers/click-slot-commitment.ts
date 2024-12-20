@@ -12,7 +12,6 @@ import { Slot } from "../../@types/slot";
 
 export const data = { customId: CustomId.CLICK_SLOT_COMMITMENT };
 
-// TODO: Cancel action after timeout https://discordjs.guide/message-components/interactions.html#deferred-updates
 export const execute = async (interaction: ButtonInteraction) => {
 	const [, slotId] = interaction.customId.split(DELIMITER);
 

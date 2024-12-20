@@ -2,6 +2,7 @@ import { MessageFlags, ModalSubmitInteraction } from "discord.js";
 import { CustomId, DELIMITER } from "../../constants";
 import { slotsCache } from "../../utilities/cache";
 import { Slot } from "../../@types/slot";
+import { createCommitment } from "../../services/potluck-quest";
 
 export const data = { customId: CustomId.COMMITMENT_DETAILS_MODAL };
 
@@ -64,7 +65,20 @@ export const execute = async (interaction: ModalSubmitInteraction) => {
 		return;
 	}
 
-	console.log(slotId, quantity, description);
+	const result = await createCommitment({
+		discordUserId: interaction.user.id,
+		description,
+		quantity,
+		slotId,
+	});
+
+	if (!result) {
+		await interaction.reply({
+			content: "Something went wrong. Please try again.",
+			flags: MessageFlags.Ephemeral,
+		});
+		return;
+	}
 
 	await interaction.reply({
 		content:

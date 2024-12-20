@@ -61,3 +61,19 @@ export const getSlots = async (code: string): Promise<Slot[] | null> => {
 		return null;
 	}
 };
+
+type SlotData = {
+	discordUserId: string;
+	description: string;
+	quantity: number;
+	slotId: string;
+};
+
+export const createCommitment = async (data: SlotData) => {
+	const result = await fetch(process.env.POTLUCK_COMMITMENT_API_URL!, {
+		method: "POST",
+		body: JSON.stringify(data),
+	});
+
+	return result.ok;
+};
