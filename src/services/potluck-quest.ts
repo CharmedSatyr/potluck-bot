@@ -77,3 +77,22 @@ export const createCommitment = async (data: SlotData) => {
 
 	return result.ok;
 };
+
+export const checkAccountExists = async (
+	discordUserId: string
+): Promise<boolean> => {
+	const params = new URLSearchParams({ providerAccountId: discordUserId });
+
+	const result = await fetch(
+		process.env.POTLUCK_CHECK_ACCOUNT_EXISTS_API_URL! + "?" + params.toString()
+	);
+
+	if (!result.ok) {
+		console.error("Failed account exists check");
+		return false;
+	}
+
+	const data: { exists: boolean } = await result.json();
+
+	return data.exists;
+};
