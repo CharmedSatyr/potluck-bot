@@ -3,6 +3,7 @@ import { createEvent as createPotluckQuestEvent } from "../../services/potluck-q
 import { createEvent as createDiscordEvent } from "../../services/discord";
 import buildDescriptionBlurb from "../../utilities/description-blurb";
 import { parseDateTimeInputForServices } from "../../utilities/date-time";
+import { CustomId } from "../../constants";
 
 export const data = { customId: "plan-event-modal" };
 
@@ -15,11 +16,15 @@ export const execute = async (interaction: ModalSubmitInteraction) => {
 		return;
 	}
 
-	const title = interaction.fields.getTextInputValue("plan-event-title");
-	const dateTime = interaction.fields.getTextInputValue("plan-event-dateTime");
-	const location = interaction.fields.getTextInputValue("plan-event-location");
+	const title = interaction.fields.getTextInputValue(CustomId.PLAN_EVENT_TITLE);
+	const dateTime = interaction.fields.getTextInputValue(
+		CustomId.PLAN_EVENT_DATETIME
+	);
+	const location = interaction.fields.getTextInputValue(
+		CustomId.PLAN_EVENT_LOCATION
+	);
 	const description = interaction.fields.getTextInputValue(
-		"plan-event-description"
+		CustomId.PLAN_EVENT_DESCRIPTION
 	);
 
 	const parsedDateTime = parseDateTimeInputForServices(dateTime);
