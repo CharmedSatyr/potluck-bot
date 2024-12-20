@@ -35,7 +35,10 @@ export const createEvent = async (data: DiscordEventData) => {
 
 		return event;
 	} catch (error) {
-		console.error("Error creating Discord event:", error);
+		console.error(
+			"Error creating Discord event:",
+			JSON.stringify(error, null, 2)
+		);
 
 		return null;
 	}
