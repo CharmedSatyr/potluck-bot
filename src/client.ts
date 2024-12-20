@@ -1,8 +1,9 @@
-import { Client, Collection, Events, GatewayIntentBits } from "discord.js";
+import { Client, Events, GatewayIntentBits } from "discord.js";
 
 import collectCommands from "./utilities/collect-commands";
-import { handler as chatInputCommandListener } from "./interactions/listeners/chat-input-command";
-import { handler as modalSubmitListener } from "./interactions/listeners/modal-submit";
+import { listener as chatInputCommandListener } from "./interactions/listeners/chat-input-command";
+import { listener as modalSubmitListener } from "./interactions/listeners/modal-submit";
+import { listener as buttonClickListener } from "./interactions/listeners/button-click";
 import collectHandlers from "./utilities/collect-handlers";
 
 const client = new Client({
@@ -19,6 +20,7 @@ client.once(Events.ClientReady, (readyClient) => {
 
 client.on(Events.InteractionCreate, chatInputCommandListener);
 client.on(Events.InteractionCreate, modalSubmitListener);
+client.on(Events.InteractionCreate, buttonClickListener);
 
 client.login(process.env.BOT_TOKEN);
 

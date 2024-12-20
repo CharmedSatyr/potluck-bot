@@ -16,7 +16,7 @@ type DiscordEventData = {
 	endTime: string;
 };
 
-export const createDiscordEvent = async (data: DiscordEventData) => {
+export const createEvent = async (data: DiscordEventData) => {
 	try {
 		const guild = await client.guilds.fetch(data.guildId);
 
@@ -35,7 +35,10 @@ export const createDiscordEvent = async (data: DiscordEventData) => {
 
 		return event;
 	} catch (error) {
-		console.error("Error creating Discord event:", error);
+		console.error(
+			"Error creating Discord event:",
+			JSON.stringify(error, null, 2)
+		);
 
 		return null;
 	}
