@@ -12,6 +12,7 @@ export const data = new SlashCommandBuilder()
 	.setName("view")
 	.setDescription("View existing Potluck Quest events");
 
+// TODO: This won't work if there are too many events.
 export const execute = async (interaction: ChatInputCommandInteraction) => {
 	const events = await interaction.guild?.scheduledEvents.fetch();
 
