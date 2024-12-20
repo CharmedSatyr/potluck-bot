@@ -1,4 +1,10 @@
-import { MessageFlags, ModalSubmitInteraction } from "discord.js";
+import {
+	ActionRowBuilder,
+	ButtonBuilder,
+	ButtonStyle,
+	MessageFlags,
+	ModalSubmitInteraction,
+} from "discord.js";
 import { createEvent as createPotluckQuestEvent } from "../../services/potluck-quest";
 import { createEvent as createDiscordEvent } from "../../services/discord";
 import buildDescriptionBlurb from "../../utilities/description-blurb";
@@ -77,9 +83,27 @@ export const execute = async (interaction: ModalSubmitInteraction) => {
 			content: `<@${interaction.user.id}> failed to create event **${title}**. Make sure you're logged in to [Potluck Quest](https://potluck.quest) and try again.`,
 			flags: MessageFlags.Ephemeral,
 		});
+		return;
 	}
 
+	const link = `[**${title}**](https://potluck.quest/event/${code})`;
+
 	await interaction.reply({
-		content: `<@${interaction.user.id}> successfully created new event **${title}**. Check it out at [**${code} | Potluck Quest**](https://potluck.quest/event/${code}).`,
+		content: `<@${interaction.user.id}> is planning a new event, ${link}. Type \`/slots ${code}\` and sign up to bring something!`,
+	});
+
+	const button = new ButtonBuilder()
+		.setLabel("Add Signup Slots")
+		.setStyle(ButtonStyle.Link)
+		.setURL(`https://potluck.quest/event/${code}`);
+
+	const createSlotsPrompt = new ActionRowBuilder<ButtonBuilder>().addComponents(
+		button
+	);
+
+	await interaction.followUp({
+		content: `<@${interaction.user.id}> Make sure to **Edit** the event and add signup slots so others know what to bring.`,
+		components: [createSlotsPrompt],
+		flags: MessageFlags.Ephemeral,
 	});
 };

@@ -26,7 +26,7 @@ export const data = new SlashCommandBuilder()
 	);
 
 export const execute = async (interaction: ChatInputCommandInteraction) => {
-	const input = interaction.options.getString("code");
+	const input = interaction.options.getString("code")?.toUpperCase();
 
 	if (!input) {
 		await interaction.reply({

@@ -83,7 +83,7 @@ export const execute = async (interaction: ModalSubmitInteraction) => {
 	await interaction.reply({
 		content:
 			`<@${interaction.user.id}> signed up to bring **${quantity}** of **${item}**`
-				.concat(description ? `: ${description}.` : ".")
+				.concat(description ? `: *${description}*.` : ".")
 				.concat(" ")
 				.concat(
 					`See more details at [${code}](https://potluck.quest/event/${code}).`
