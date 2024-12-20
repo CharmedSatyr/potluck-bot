@@ -11,7 +11,7 @@ import buildDescriptionBlurb from "../../utilities/description-blurb";
 import { parseDateTimeInputForServices } from "../../utilities/date-time";
 import { CustomId } from "../../constants";
 
-export const data = { customId: "plan-event-modal" };
+export const data = { customId: CustomId.PLAN_EVENT_MODAL };
 
 export const execute = async (interaction: ModalSubmitInteraction) => {
 	if (!interaction.guild?.id) {
