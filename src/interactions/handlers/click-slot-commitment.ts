@@ -9,6 +9,7 @@ import {
 import { CustomId, DELIMITER } from "../../constants";
 import { slotsCache } from "../../utilities/cache";
 import { Slot } from "../../@types/slot";
+import getRandomPlaceholder from "../../utilities/get-random-placeholder";
 
 export const data = { customId: CustomId.CLICK_SLOT_COMMITMENT };
 
@@ -52,15 +53,11 @@ export const execute = async (interaction: ButtonInteraction) => {
 		"Spicy elven bread, crisped over a magical flame",
 		"A hearty stew, loaded with dwarven mine fungus",
 	];
-	const getRandomPlaceholder = () => {
-		const randomIndex = Math.floor(Math.random() * placeholders.length);
-		return placeholders[randomIndex];
-	};
 
 	const descriptionInput = new TextInputBuilder()
 		.setCustomId(CustomId.COMMITMENT_DETAILS_NOTE)
 		.setLabel("Add a description")
-		.setPlaceholder(getRandomPlaceholder())
+		.setPlaceholder(getRandomPlaceholder(placeholders))
 		.setStyle(TextInputStyle.Short)
 		.setMaxLength(100)
 		.setRequired(false);

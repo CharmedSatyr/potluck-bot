@@ -8,6 +8,7 @@ import {
 	TextInputStyle,
 } from "discord.js";
 import { CustomId } from "../constants";
+import getRandomPlaceholder from "../utilities/get-random-placeholder";
 
 // TODO: Add cooldowns https://discordjs.guide/additional-features/cooldowns.html#resulting-code
 export const data = new SlashCommandBuilder()
@@ -37,12 +38,25 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
 		.setRequired(true)
 		.setStyle(TextInputStyle.Short);
 
+	const placeholders = [
+		"The field across from the pigpen, Caer Dallben",
+		"Lyra’s Apothecary, 36 Azure Lane, Moonshade Village",
+		"Captain Eldric’s boat, Celestine Port, Starfall Harbor",
+		"The Blacksmith’s Forge, 5 Emberglade Grove",
+		"Mira’s Bakery, 22 Frostpeak Summit, West Auroria",
+		"Ealdor’s Manor, Shadowfang Pass, near Duskhaven",
+		"Luthien’s Library, 12 Crystal Crescent, Dawnspire City",
+		"The Siren’s Refuge, Sunken Bazaar, under Crescent Isle",
+		"Aedric’s Stables, Crimson Spire, Emberlight District",
+		"The Abyss",
+	];
+
 	const locationInput = new TextInputBuilder()
 		.setCustomId(CustomId.PLAN_EVENT_LOCATION)
 		.setLabel("Location")
 		.setMinLength(1)
 		.setMaxLength(100)
-		.setPlaceholder("Bilbo's house")
+		.setPlaceholder(getRandomPlaceholder(placeholders))
 		.setRequired(true)
 		.setStyle(TextInputStyle.Short);
 
