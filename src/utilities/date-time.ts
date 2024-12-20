@@ -52,6 +52,14 @@ export const parseDateTimeInputForServices = (
 		? DateTime.fromJSDate(end)
 		: DateTime.fromJSDate(start).plus({ hours: 1 }); // DEFAULT to 1 hour duration
 
+	if (startDt <= DateTime.now()) {
+		return null;
+	}
+
+	if (startDt > endDt) {
+		return null;
+	}
+
 	return {
 		startDate: startDt.toFormat("yyyy-MM-dd"),
 		startTime: startDt.toFormat("HH:mm:ss"),
