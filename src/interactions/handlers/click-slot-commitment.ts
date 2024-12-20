@@ -76,7 +76,7 @@ export const execute = async (interaction: ButtonInteraction) => {
 		);
 	}
 
-	if (needed) modal.addComponents(...components);
+	modal.addComponents(...components);
 
 	await interaction.showModal(modal);
 };

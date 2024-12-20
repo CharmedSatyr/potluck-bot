@@ -3,6 +3,7 @@ import {
 	ButtonBuilder,
 	ButtonStyle,
 	ChatInputCommandInteraction,
+	MessageComponentInteraction,
 	MessageFlags,
 	SlashCommandBuilder,
 } from "discord.js";
@@ -86,10 +87,28 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
 			}
 		});
 
-	await interaction.reply({
+	const prompt = await interaction.reply({
 		content:
 			"Here's how many of each item is still needed. What would you like to bring?",
 		components: rows,
 		flags: MessageFlags.Ephemeral,
 	});
+
+	// Remove the buttons on click or timeout so they can't be reused.
+	const collectorFilter = (i: MessageComponentInteraction): boolean =>
+		i.isButton() &&
+		i.customId.split(DELIMITER)[0] === CustomId.CLICK_SLOT_COMMITMENT;
+
+	try {
+		await prompt.awaitMessageComponent({
+			filter: collectorFilter,
+			time: 60_000,
+		});
+		await prompt.delete();
+	} catch (err) {
+		await interaction.editReply({
+			content: "Confirmation not received within 1 minute. Cancelling...",
+			components: [],
+		});
+	}
 };
