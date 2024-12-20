@@ -32,7 +32,7 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
 		.setCustomId(CustomId.PLAN_EVENT_DATETIME)
 		.setLabel("Date and Time")
 		.setMinLength(1)
-		.setMaxLength(256)
+		.setMaxLength(100)
 		.setPlaceholder("12/31 8pm - 10pm, Feb 5 at 9am (defaults to 1 hour)")
 		.setRequired(true)
 		.setStyle(TextInputStyle.Short);
@@ -41,7 +41,7 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
 		.setCustomId(CustomId.PLAN_EVENT_LOCATION)
 		.setLabel("Location")
 		.setMinLength(1)
-		.setMaxLength(256)
+		.setMaxLength(100)
 		.setPlaceholder("Bilbo's house")
 		.setRequired(true)
 		.setStyle(TextInputStyle.Short);
