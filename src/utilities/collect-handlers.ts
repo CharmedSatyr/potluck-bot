@@ -7,9 +7,7 @@ const collectHandlers = () => {
 	const handlers = new Collection<string, Handler>();
 
 	const handlersPath = path.resolve(__dirname, "../interactions/handlers");
-	const handlerFiles = fs
-		.readdirSync(handlersPath)
-		.filter((file) => file.endsWith(".ts"));
+	const handlerFiles = fs.readdirSync(handlersPath);
 
 	for (const file of handlerFiles) {
 		const filePath = path.join(handlersPath, file);

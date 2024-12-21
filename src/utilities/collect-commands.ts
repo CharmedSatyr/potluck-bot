@@ -7,9 +7,7 @@ const collectCommands = () => {
 	const commands = new Collection<string, Command>();
 
 	const commandsPath = path.resolve(__dirname, "../commands");
-	const commandFiles = fs
-		.readdirSync(commandsPath)
-		.filter((file) => file.endsWith(".ts"));
+	const commandFiles = fs.readdirSync(commandsPath);
 
 	for (const file of commandFiles) {
 		const filePath = path.join(commandsPath, file);
