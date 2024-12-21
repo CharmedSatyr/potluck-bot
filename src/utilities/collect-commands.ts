@@ -16,6 +16,7 @@ const collectCommands = () => {
 		const command: Command = require(filePath);
 
 		if ("data" in command && "execute" in command) {
+			console.log(`Adding command: ${command.data.name}`);
 			commands.set(command.data.name, command);
 		} else {
 			console.warn(
