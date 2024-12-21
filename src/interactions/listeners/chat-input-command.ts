@@ -6,6 +6,8 @@ export const listener = async (interaction: Interaction<CacheType>) => {
 		return;
 	}
 
+	console.log("commands:", interaction.client.commands);
+
 	const command = interaction.client.commands.get(interaction.commandName);
 
 	if (!command) {
