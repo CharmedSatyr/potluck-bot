@@ -15,7 +15,9 @@ client.once(Events.ClientReady, (readyClient) => {
 	console.log(`Connected to ${readyClient.guilds.cache.size} guilds.`);
 
 	client.commands = collectCommands();
+	console.log(`Collected ${client.commands.size} commands`);
 	client.handlers = collectHandlers();
+	console.log(`Collected ${client.handlers.size} handlers`);
 });
 
 client.on(Events.InteractionCreate, chatInputCommandListener);
