@@ -1,5 +1,5 @@
 export const buildDescriptionBlurb = (code: string) =>
-	`See details at [Potluck Quest](https://potluck.quest/event/${code})`;
+	`See details at [${code} | Potluck Quest](https://potluck.quest/event/${code})`;
 
 export default buildDescriptionBlurb;
 
@@ -9,7 +9,7 @@ export const removeBlurbAndGetCode = (description: string | null) => {
 	}
 
 	const regex =
-		/See details at \[Potluck Quest\]\(https:\/\/potluck\.quest\/event\/([a-zA-Z0-9]{5})\)$/m;
+		/See details at \[[a-zA-Z0-9]{5} \| Potluck Quest\]\(https:\/\/potluck\.quest\/event\/([a-zA-Z0-9]{5})\)$/m;
 
 	const found = description.match(regex);
 
