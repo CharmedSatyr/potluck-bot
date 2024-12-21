@@ -82,16 +82,20 @@ export const checkAccountExists = async (
 	discordUserId: string
 ): Promise<boolean> => {
 	try {
+		if (!process.env.POTLUCK_CHECK_ACCOUNT_EXISTS_API_URL) {
+			throw new Error(
+				"Missing environmental variable: POTLUCK_CHECK_ACCOUNT_EXISTS_API_URL"
+			);
+		}
+
 		const params = new URLSearchParams({ providerAccountId: discordUserId });
 
 		const result = await fetch(
-			process.env.POTLUCK_CHECK_ACCOUNT_EXISTS_API_URL! +
-				"?" +
-				params.toString()
+			process.env.POTLUCK_CHECK_ACCOUNT_EXISTS_API_URL + "?" + params.toString()
 		);
 
 		if (!result.ok) {
-			console.error("Failed account exists check");
+			console.error("Failed account exists check", result.status);
 			return false;
 		}
 
