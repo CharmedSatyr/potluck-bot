@@ -56,7 +56,7 @@ export const execute = async (interaction: ModalSubmitInteraction) => {
 
 	if (!code) {
 		await interaction.reply({
-			content: `<@${interaction.user.id}> We failed to create event **${title}**. Make sure you have an account on [Potluck Quest](https://potluck.quest) and try again.`,
+			content: `<@${interaction.user.id}> We failed to create event **${title}**. Make sure you have an account on [Potluck Quest](${process.env.POTLUCK_QUEST_BASE_URL}) and try again.`,
 			flags: MessageFlags.Ephemeral,
 		});
 		return;
@@ -86,16 +86,30 @@ export const execute = async (interaction: ModalSubmitInteraction) => {
 		return;
 	}
 
-	const link = `[**${title}**](https://potluck.quest/event/${code})`;
+	const link = `[**${title}**](${process.env.POTLUCK_QUEST_BASE_URL}/event/${code})`;
 
 	await interaction.reply({
 		content: `<@${interaction.user.id}> is planning a new event, ${link}. Type \`/slots ${code}\` and sign up to bring something!`,
 	});
 
+	const params = new URLSearchParams();
+	params.append("description", description);
+	params.append("location", location);
+	params.append("startDate", startDate);
+	params.append("startTime", startTime);
+	params.append("title", title);
+	params.append("code", code);
+	params.append("source", "discord");
+
 	const button = new ButtonBuilder()
 		.setLabel("Add Signup Slots")
 		.setStyle(ButtonStyle.Link)
-		.setURL(`https://potluck.quest/event/${code}`);
+		.setURL(
+			process.env
+				.POTLUCK_QUEST_BASE_URL!.concat("/api/bot/auth/plan-food")
+				.concat("?")
+				.concat(params.toString())
+		);
 
 	const createSlotsPrompt = new ActionRowBuilder<ButtonBuilder>().addComponents(
 		button

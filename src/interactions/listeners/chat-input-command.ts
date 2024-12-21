@@ -1,4 +1,5 @@
 import { CacheType, Interaction, MessageFlags } from "discord.js";
+import { checkAccountExists } from "../../services/potluck-quest";
 
 export const listener = async (interaction: Interaction<CacheType>) => {
 	if (!interaction.isChatInputCommand()) {
@@ -9,6 +10,16 @@ export const listener = async (interaction: Interaction<CacheType>) => {
 
 	if (!command) {
 		console.error(`No command matching ${interaction.commandName} was found.`);
+		return;
+	}
+
+	const hasPotluckAccount = await checkAccountExists(interaction.user.id);
+
+	if (!hasPotluckAccount) {
+		await interaction.reply({
+			content: `<@${interaction.user.id}> Sign in to [Potluck Quest](${process.env.POTLUCK_QUEST_BASE_URL}) to continue.`,
+			flags: MessageFlags.Ephemeral,
+		});
 		return;
 	}
 
