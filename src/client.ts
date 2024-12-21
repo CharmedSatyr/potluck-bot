@@ -10,12 +10,7 @@ import collectHandlers from "./utilities/collect-handlers";
 
 const client = new Client({
 	partials: [Partials.GuildScheduledEvent],
-	intents: [
-		GatewayIntentBits.Guilds,
-		GatewayIntentBits.GuildMembers,
-		GatewayIntentBits.MessageContent,
-		GatewayIntentBits.GuildScheduledEvents,
-	],
+	intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildScheduledEvents],
 });
 
 client.once(Events.ClientReady, (readyClient) => {
