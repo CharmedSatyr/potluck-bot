@@ -131,3 +131,29 @@ export const checkAccountExists = async (
 		return false;
 	}
 };
+
+type RsvpData = {
+	code: string;
+	discordUserId: string;
+	message: string;
+	response: "yes" | "no";
+};
+
+export const upsertRsvp = async (data: RsvpData) => {
+	try {
+		if (!process.env.POTLUCK_RSVP_API_URL) {
+			throw new Error("Missing environmental variable: POTLUCK_RSVP_API_URL");
+		}
+
+		const result = await fetch(process.env.POTLUCK_RSVP_API_URL, {
+			method: "POST",
+			body: JSON.stringify(data),
+		});
+
+		return result.ok;
+	} catch (err) {
+		console.error("Failed to upsert RSVP", JSON.stringify(err, null, 2));
+
+		return false;
+	}
+};
