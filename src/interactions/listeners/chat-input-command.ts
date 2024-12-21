@@ -17,7 +17,7 @@ export const listener = async (interaction: Interaction<CacheType>) => {
 
 	if (!hasPotluckAccount) {
 		await interaction.reply({
-			content: `<@${interaction.user.id}> Sign in to [Potluck Quest](https://potluck.quest) to continue.`,
+			content: `<@${interaction.user.id}> Sign in to [Potluck Quest](${process.env.POTLUCK_QUEST_BASE_URL}) to continue.`,
 			flags: MessageFlags.Ephemeral,
 		});
 		return;
