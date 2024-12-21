@@ -13,7 +13,11 @@ type EventData = {
 
 export const createEvent = async (data: EventData): Promise<string | null> => {
 	try {
-		const result = await fetch(process.env.POTLUCK_EVENT_API_URL!, {
+		if (!process.env.POTLUCK_EVENT_API_URL) {
+			throw new Error("Missing environmental variable: POTLUCK_EVENT_API_URL");
+		}
+
+		const result = await fetch(process.env.POTLUCK_EVENT_API_URL, {
 			method: "POST",
 			body: JSON.stringify(data),
 		});
@@ -38,12 +42,16 @@ export const createEvent = async (data: EventData): Promise<string | null> => {
 
 export const getSlots = async (code: string): Promise<Slot[] | null> => {
 	try {
+		if (!process.env.POTLUCK_SLOTS_API_URL) {
+			throw new Error("Missing environmental variable: POTLUCK_SLOTS_API_URL");
+		}
+
 		code = code.toUpperCase();
 
 		const params = new URLSearchParams({ code });
 
 		const result = await fetch(
-			process.env.POTLUCK_SLOTS_API_URL! + "?" + params.toString()
+			process.env.POTLUCK_SLOTS_API_URL + "?" + params.toString()
 		);
 
 		if (!result.ok) {
@@ -70,12 +78,24 @@ type SlotData = {
 };
 
 export const createCommitment = async (data: SlotData) => {
-	const result = await fetch(process.env.POTLUCK_COMMITMENT_API_URL!, {
-		method: "POST",
-		body: JSON.stringify(data),
-	});
+	try {
+		if (!process.env.POTLUCK_COMMITMENT_API_URL) {
+			throw new Error(
+				"Missing environmental variable: POTLUCK_COMMITMENT_API_URL"
+			);
+		}
 
-	return result.ok;
+		const result = await fetch(process.env.POTLUCK_COMMITMENT_API_URL, {
+			method: "POST",
+			body: JSON.stringify(data),
+		});
+
+		return result.ok;
+	} catch (err) {
+		console.error("Failed to create commitment", JSON.stringify(err, null, 2));
+
+		return false;
+	}
 };
 
 export const checkAccountExists = async (
