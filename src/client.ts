@@ -6,7 +6,7 @@ import { listener as modalSubmitListener } from "./interactions/listeners/modal-
 import { listener as buttonClickListener } from "./interactions/listeners/button-click";
 import { listener as eventUserAddListener } from "./guildEvents/listeners/user-add";
 import { listener as eventUserRemoveListener } from "./guildEvents/listeners/user-remove";
-import collectHandlers from "./utilities/collect-handlers";
+import collectInteractionHandlers from "./utilities/collect-interaction-handlers";
 
 const client = new Client({
 	partials: [Partials.GuildScheduledEvent],
@@ -19,15 +19,18 @@ client.once(Events.ClientReady, (readyClient) => {
 
 	client.commands = collectCommands();
 	console.log(`Collected ${client.commands.size} commands`);
-	client.handlers = collectHandlers();
+	client.handlers = collectInteractionHandlers();
 	console.log(`Collected ${client.handlers.size} handlers`);
 });
 
 client.on(Events.InteractionCreate, chatInputCommandListener);
 client.on(Events.InteractionCreate, modalSubmitListener);
 client.on(Events.InteractionCreate, buttonClickListener);
+
 client.on(Events.GuildScheduledEventUserAdd, eventUserAddListener);
 client.on(Events.GuildScheduledEventUserRemove, eventUserRemoveListener);
+client.on(Events.GuildScheduledEventUpdate, async () => {});
+client.on(Events.GuildScheduledEventDelete, async () => {});
 
 client.login(process.env.BOT_TOKEN);
 

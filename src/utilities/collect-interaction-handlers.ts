@@ -1,9 +1,9 @@
 import fs from "fs";
 import path from "path";
 import { Collection } from "discord.js";
-import { Command, Handler } from "../@types/client";
+import { Handler } from "../@types/client";
 
-const collectHandlers = () => {
+const collectInteractionHandlers = () => {
 	const handlers = new Collection<string, Handler>();
 
 	const handlersPath = path.resolve(__dirname, "../interactions/handlers");
@@ -25,4 +25,4 @@ const collectHandlers = () => {
 	return handlers;
 };
 
-export default collectHandlers;
+export default collectInteractionHandlers;
