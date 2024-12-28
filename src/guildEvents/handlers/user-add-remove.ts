@@ -30,7 +30,7 @@ export const handler = async (
 		code,
 		discordUserId: user.id,
 		message: "",
-		response: "no",
+		response,
 	});
 
 	if (!result) {
