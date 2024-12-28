@@ -116,7 +116,7 @@ export const execute = async (interaction: ModalSubmitInteraction) => {
 	);
 
 	await interaction.followUp({
-		content: `<@${interaction.user.id}> Make sure to **Edit** the event and add signup slots so others know what to bring.`,
+		content: `<@${interaction.user.id}> Make sure to add signup slots so others know what to bring.`,
 		components: [createSlotsPrompt],
 		flags: MessageFlags.Ephemeral,
 	});
