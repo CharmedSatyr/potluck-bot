@@ -13,7 +13,7 @@ export const listener = async (
 		| PartialGuildScheduledEvent,
 	user: User
 ) => {
-	const eventName = Events.GuildScheduledEventUserAdd;
+	const eventName = Events.GuildScheduledEventUserRemove;
 
 	const handler = event.client.handlers.get(eventName);
 
