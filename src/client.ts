@@ -6,7 +6,7 @@ import { listener as modalSubmitListener } from "./interactions/listeners/modal-
 import { listener as buttonClickListener } from "./interactions/listeners/button-click";
 import { listener as eventUserAddListener } from "./guildEvents/listeners/user-add";
 import { listener as eventUserRemoveListener } from "./guildEvents/listeners/user-remove";
-import collectInteractionHandlers from "./utilities/collect-interaction-handlers";
+import collectHandlers from "./utilities/collect-handlers";
 
 const client = new Client({
 	partials: [Partials.GuildScheduledEvent],
@@ -19,7 +19,7 @@ client.once(Events.ClientReady, (readyClient) => {
 
 	client.commands = collectCommands();
 	console.log(`Collected ${client.commands.size} commands`);
-	client.handlers = collectInteractionHandlers();
+	client.handlers = collectHandlers();
 	console.log(`Collected ${client.handlers.size} handlers`);
 });
 

@@ -34,6 +34,7 @@ export const listener = async (interaction: Interaction<CacheType>) => {
 				content: "There was an error while executing this command!",
 				flags: MessageFlags.Ephemeral,
 			});
+			return;
 		}
 
 		await interaction.reply({

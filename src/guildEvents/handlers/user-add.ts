@@ -1,4 +1,5 @@
 import {
+	Events,
 	GuildScheduledEvent,
 	GuildScheduledEventStatus,
 	PartialGuildScheduledEvent,
@@ -7,12 +8,13 @@ import {
 import { removeBlurbAndGetCode } from "../../utilities/description-blurb";
 import { upsertRsvp } from "../../services/potluck-quest";
 
-export const handler = async (
+export const data = { eventName: Events.GuildScheduledEventUserAdd };
+
+export const execute = async (
 	event:
 		| GuildScheduledEvent<GuildScheduledEventStatus>
 		| PartialGuildScheduledEvent,
-	user: User,
-	response: "yes" | "no"
+	user: User
 ) => {
 	if (!event.isCanceled()) {
 		console.warn("Event is not active");
@@ -30,7 +32,7 @@ export const handler = async (
 		code,
 		discordUserId: user.id,
 		message: "",
-		response,
+		response: "yes",
 	});
 
 	if (!result) {
