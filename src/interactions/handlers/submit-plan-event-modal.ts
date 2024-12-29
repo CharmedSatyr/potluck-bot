@@ -88,9 +88,12 @@ export const execute = async (interaction: ModalSubmitInteraction) => {
 
 	const link = `[**${title}**](${process.env.POTLUCK_QUEST_BASE_URL}/event/${code})`;
 
-	await interaction.reply({
-		content: `<@${interaction.user.id}> is planning a new event, ${link}. Type \`/slots ${code}\` and sign up to bring something!`,
-	});
+	// Prevent errors with both DEV and PROD servers running.
+	if (!interaction.replied) {
+		await interaction.reply({
+			content: `<@${interaction.user.id}> is planning a new event, ${link}. Type \`/slots ${code}\` and sign up to bring something!`,
+		});
+	}
 
 	const params = new URLSearchParams();
 	params.append("description", description);

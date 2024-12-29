@@ -4,6 +4,7 @@ import {
 	CommandInteraction,
 	GuildScheduledEvent,
 	Interaction,
+	PartialGuildScheduledEvent,
 	SlashCommandBuilder,
 	User,
 } from "discord.js";
@@ -20,10 +21,13 @@ interface InteractionHandler {
 
 interface GuildEventHandler {
 	data: { eventName: string };
-	execute: (event: GuildScheduledEvent, user: User) => Promise<void>;
+	execute: (
+		event: GuildScheduledEvent | PartialGuildScheduledEvent,
+		user: User
+	) => Promise<void>;
 }
 
-type Handler = InteractionHandler | GuildEventHandlers;
+type Handler = InteractionHandler | GuildEventHandler;
 
 declare module "discord.js" {
 	interface Client {

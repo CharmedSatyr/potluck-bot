@@ -14,14 +14,21 @@ const collectHandlers = () => {
 
 		for (const file of handlerFiles) {
 			const filePath = path.join(handlersPath, file);
-			const handler: Handler = require(filePath);
+			const handler = require(filePath);
 
-			if ("data" in handler && "execute" in handler) {
-				handlers.set(handler.data.customId, handler);
-			} else {
+			if (!("data" in handler && "execute" in handler)) {
 				console.warn(
 					`[WARNING] The handler at ${filePath} is missing a required "data" or "execute" property.`
 				);
+				return;
+			}
+
+			if (handler.data.customId) {
+				handlers.set(handler.data.customId!, handler);
+			}
+
+			if (handler.data.eventName) {
+				handlers.set(handler.data.eventName, handler);
 			}
 		}
 	});

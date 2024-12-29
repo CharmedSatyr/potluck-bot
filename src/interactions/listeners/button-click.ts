@@ -1,5 +1,6 @@
 import { CacheType, Interaction, MessageFlags } from "discord.js";
 import { DELIMITER } from "../../constants";
+import { InteractionHandler } from "../../@types/client";
 
 export const listener = async (interaction: Interaction<CacheType>) => {
 	if (!interaction.isButton()) {
@@ -16,7 +17,7 @@ export const listener = async (interaction: Interaction<CacheType>) => {
 	}
 
 	try {
-		await handler.execute(interaction);
+		await (handler as InteractionHandler).execute(interaction);
 	} catch (error) {
 		console.error(error);
 

@@ -16,7 +16,7 @@ export const execute = async (
 		| PartialGuildScheduledEvent,
 	user: User
 ) => {
-	if (!event.isCanceled()) {
+	if (event.isCanceled()) {
 		console.warn("Event is not active");
 		return;
 	}
