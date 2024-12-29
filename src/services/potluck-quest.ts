@@ -140,22 +140,27 @@ type RsvpData = {
 };
 
 export const upsertRsvp = async (data: RsvpData) => {
-	try {
-		if (!process.env.POTLUCK_RSVP_API_URL) {
-			throw new Error("Missing environmental variable: POTLUCK_RSVP_API_URL");
-		}
-
-		const result = await fetch(process.env.POTLUCK_RSVP_API_URL, {
-			method: "POST",
-			body: JSON.stringify(data),
-		});
-
-		console.info("RSVP result:", JSON.stringify(await result.json()));
-
-		return result.ok;
-	} catch (err) {
-		console.error("Failed to upsert RSVP:", JSON.stringify(err, null, 2));
-
-		return false;
+	//try {
+	if (!process.env.POTLUCK_RSVP_API_URL) {
+		throw new Error("Missing environmental variable: POTLUCK_RSVP_API_URL");
 	}
+
+	const result = await fetch(process.env.POTLUCK_RSVP_API_URL, {
+		method: "POST",
+		body: JSON.stringify(data),
+	});
+
+	console.info(
+		"RSVP result:",
+		result.status,
+		result.ok,
+		JSON.stringify(await result.json())
+	);
+
+	return result.ok;
+	//	} catch (err) {
+	//		console.error("Failed to upsert RSVP:", JSON.stringify(err, null, 2));
+
+	//	return false;
+	//	}
 };
