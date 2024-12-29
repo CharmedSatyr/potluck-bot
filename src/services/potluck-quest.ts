@@ -150,6 +150,8 @@ export const upsertRsvp = async (data: RsvpData) => {
 			body: JSON.stringify(data),
 		});
 
+		console.info("RSVP result:", JSON.stringify(await result.json()));
+
 		return result.ok;
 	} catch (err) {
 		console.error("Failed to upsert RSVP:", JSON.stringify(err, null, 2));
