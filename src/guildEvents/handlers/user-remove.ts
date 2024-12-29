@@ -36,6 +36,6 @@ export const execute = async (
 	});
 
 	if (!result) {
-		console.error("Failed to upsert rsvp for event:", code);
+		console.error("Failed to remove rsvp for event:", code);
 	}
 };

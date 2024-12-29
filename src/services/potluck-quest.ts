@@ -152,7 +152,7 @@ export const upsertRsvp = async (data: RsvpData) => {
 
 		return result.ok;
 	} catch (err) {
-		console.error("Failed to upsert RSVP", JSON.stringify(err, null, 2));
+		console.error("Failed to upsert RSVP:", JSON.stringify(err, null, 2));
 
 		return false;
 	}
