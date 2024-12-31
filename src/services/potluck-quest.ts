@@ -23,7 +23,8 @@ export const createEvent = async (data: EventData): Promise<string | null> => {
 		});
 
 		if (!result.ok) {
-			console.warn("Failed to create event:", result.status);
+			const json = await result.json();
+			console.warn("Failed to create event:", result.status, json.errors);
 			return null;
 		}
 
