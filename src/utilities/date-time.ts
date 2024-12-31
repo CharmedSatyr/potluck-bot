@@ -34,9 +34,11 @@ export const parseDateTimeInputForServices = (
 	dateTimeInput: string
 ): {
 	startDate: string;
+	startUtc: string;
 	startTime: string;
 	endDate: string;
 	endTime: string;
+	endUtc: string;
 } | null => {
 	const parsed = chrono.parse(dateTimeInput, new Date(), {
 		forwardDate: true,
@@ -65,7 +67,9 @@ export const parseDateTimeInputForServices = (
 	return {
 		startDate: startDt.toFormat("yyyy-MM-dd"),
 		startTime: startDt.toFormat("HH:mm:ss"),
+		startUtc: startDt.toUTC().toString(),
 		endDate: endDt.toFormat("yyyy-MM-dd"),
 		endTime: endDt.toFormat("HH:mm:ss"),
+		endUtc: endDt.toUTC().toString(),
 	};
 };

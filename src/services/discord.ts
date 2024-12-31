@@ -6,14 +6,12 @@ import client from "../client";
 
 // TODO: zod
 type DiscordEventData = {
-	guildId: string;
-	title: string;
 	description: string;
+	endUtc: string;
+	guildId: string;
 	location: string;
-	startDate: string;
-	startTime: string;
-	endDate: string;
-	endTime: string;
+	startUtc: string;
+	title: string;
 };
 
 export const createEvent = async (data: DiscordEventData) => {
@@ -29,14 +27,9 @@ export const createEvent = async (data: DiscordEventData) => {
 			image: undefined, // TODO
 			name: data.title,
 			privacyLevel: GuildScheduledEventPrivacyLevel.GuildOnly,
-			scheduledEndTime: new Date(`${data.endDate} ${data.endTime}`),
-			scheduledStartTime: new Date(`${data.startDate} ${data.startTime}`),
+			scheduledEndTime: data.endUtc,
+			scheduledStartTime: data.startUtc,
 		});
-
-		console.info(
-			"Datetime sent to Discord",
-			new Date(`${data.startDate} ${data.startTime}`)
-		);
 
 		return event;
 	} catch (error) {

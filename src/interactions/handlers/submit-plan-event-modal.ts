@@ -43,7 +43,8 @@ export const execute = async (interaction: ModalSubmitInteraction) => {
 		return;
 	}
 
-	const { startDate, startTime, endDate, endTime } = parsedDateTime;
+	const { startDate, startTime, startUtc, endDate, endTime, endUtc } =
+		parsedDateTime;
 
 	console.info("parsedDateTime:", parsedDateTime);
 
@@ -74,10 +75,8 @@ export const execute = async (interaction: ModalSubmitInteraction) => {
 		title,
 		description: augmentedDescription,
 		location,
-		startDate,
-		startTime,
-		endDate,
-		endTime,
+		startUtc,
+		endUtc,
 	});
 
 	if (!discordEvent) {
