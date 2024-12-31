@@ -33,6 +33,11 @@ export const createEvent = async (data: DiscordEventData) => {
 			scheduledStartTime: new Date(`${data.startDate} ${data.startTime}`),
 		});
 
+		console.info(
+			"Datetime sent to Discord",
+			new Date(`${data.startDate} ${data.startTime}`)
+		);
+
 		return event;
 	} catch (error) {
 		console.error(
