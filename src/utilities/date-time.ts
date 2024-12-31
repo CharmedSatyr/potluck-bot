@@ -35,11 +35,11 @@ export const parseDateTimeInputForServices = (
 	dateTimeInput: string
 ): {
 	startDate: string;
-	startUtc: number;
+	startUtcMs: number;
 	startTime: string;
 	endDate: string;
 	endTime: string;
-	endUtc: number;
+	endUtcMs: number;
 } | null => {
 	const parsed = chrono.parse(dateTimeInput, new Date(), {
 		forwardDate: true,
@@ -52,10 +52,10 @@ export const parseDateTimeInputForServices = (
 	const start = parsed.start.date();
 	const end = parsed.end?.date();
 
-	const startDt = DateTime.fromJSDate(start).setZone(DEFAULT_TIMEZONE);
+	const startDt = DateTime.fromJSDate(start);
 	const endDt = end
-		? DateTime.fromJSDate(end).setZone(DEFAULT_TIMEZONE)
-		: DateTime.fromJSDate(start).setZone(DEFAULT_TIMEZONE).plus({ hours: 1 }); // DEFAULT to 1 hour duration
+		? DateTime.fromJSDate(end)
+		: DateTime.fromJSDate(start).plus({ hours: 1 }); // DEFAULT to 1 hour duration
 
 	if (startDt <= DateTime.now()) {
 		return null;
@@ -68,9 +68,9 @@ export const parseDateTimeInputForServices = (
 	return {
 		startDate: startDt.toFormat("yyyy-MM-dd"),
 		startTime: startDt.toFormat("HH:mm:ss"),
-		startUtc: startDt.toUTC().toMillis(),
+		startUtcMs: startDt.toUTC().toMillis(),
 		endDate: endDt.toFormat("yyyy-MM-dd"),
 		endTime: endDt.toFormat("HH:mm:ss"),
-		endUtc: endDt.toUTC().toMillis(),
+		endUtcMs: endDt.toUTC().toMillis(),
 	};
 };

@@ -7,10 +7,10 @@ import client from "../client";
 // TODO: zod
 type DiscordEventData = {
 	description: string;
-	endUtc: number;
+	endUtcMs: number;
 	guildId: string;
 	location: string;
-	startUtc: number;
+	startUtcMs: number;
 	title: string;
 };
 
@@ -27,8 +27,8 @@ export const createEvent = async (data: DiscordEventData) => {
 			image: undefined, // TODO
 			name: data.title,
 			privacyLevel: GuildScheduledEventPrivacyLevel.GuildOnly,
-			scheduledEndTime: data.endUtc,
-			scheduledStartTime: data.startUtc,
+			scheduledEndTime: data.endUtcMs,
+			scheduledStartTime: data.startUtcMs,
 		});
 
 		return event;

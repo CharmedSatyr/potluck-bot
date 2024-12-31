@@ -15,8 +15,8 @@ export const listener = async (interaction: Interaction<CacheType>) => {
 
 	const hasPotluckAccount = await checkAccountExists(interaction.user.id);
 
-	// TODO: This should have a button that automatically takes you to discord oauth.
 	if (!hasPotluckAccount) {
+		// TODO: This should have a button that automatically takes you to discord oauth.
 		await interaction.reply({
 			content: `<@${interaction.user.id}> Sign in to [Potluck Quest](${process.env.POTLUCK_QUEST_BASE_URL}) to continue.`,
 			flags: MessageFlags.Ephemeral,
