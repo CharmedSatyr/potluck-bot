@@ -109,7 +109,9 @@ export const execute = async (interaction: ModalSubmitInteraction) => {
 		.setStyle(ButtonStyle.Link)
 		.setURL(
 			process.env
-				.POTLUCK_QUEST_BASE_URL!.concat("/api/bot/auth/plan-food")
+				.POTLUCK_QUEST_BASE_URL!.concat(
+					process.env.POTLUCK_QUEST_AUTH_PLAN_FOOD_ROUTE!
+				)
 				.concat("?")
 				.concat(params.toString())
 		);
