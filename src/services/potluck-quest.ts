@@ -23,6 +23,7 @@ export const createEvent = async (data: EventData): Promise<string | null> => {
 		});
 
 		if (!result.ok) {
+			console.warn("Failed to create event:", result.status);
 			return null;
 		}
 
