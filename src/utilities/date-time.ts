@@ -51,7 +51,7 @@ export const parseDateTimeInputForServices = (
 	const start = parsed.start.date();
 	const end = parsed.end?.date();
 
-	const startDt = DateTime.fromJSDate(start);
+	const startDt = DateTime.fromJSDate(start, { zone: "local" });
 	const endDt = end
 		? DateTime.fromJSDate(end)
 		: DateTime.fromJSDate(start).plus({ hours: 1 }); // DEFAULT to 1 hour duration
