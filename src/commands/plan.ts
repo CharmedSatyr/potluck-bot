@@ -9,7 +9,6 @@ import {
 } from "discord.js";
 import { CustomId } from "../constants";
 import getRandomPlaceholder from "../utilities/get-random-placeholder";
-import { checkAccountExists } from "../services/potluck-quest";
 
 // TODO: Add cooldowns https://discordjs.guide/additional-features/cooldowns.html#resulting-code
 export const data = new SlashCommandBuilder()
@@ -17,8 +16,6 @@ export const data = new SlashCommandBuilder()
 	.setDescription("Plan a new Potluck Quest event");
 
 export const execute = async (interaction: ChatInputCommandInteraction) => {
-	const hasAccount = await checkAccountExists(interaction.user.id);
-
 	const modal = new ModalBuilder()
 		.setCustomId(CustomId.PLAN_EVENT_MODAL)
 		.setTitle("Plan an Event");
