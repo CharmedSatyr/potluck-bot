@@ -1,5 +1,6 @@
 import * as chrono from "chrono-node";
 import { DateTime } from "luxon";
+import { DEFAULT_TIMEZONE } from "../constants";
 
 export const formatDateTimeForView = (date: Date | null): string => {
 	if (!date) {
@@ -51,10 +52,10 @@ export const parseDateTimeInputForServices = (
 	const start = parsed.start.date();
 	const end = parsed.end?.date();
 
-	const startDt = DateTime.fromJSDate(start, { zone: "local" });
+	const startDt = DateTime.fromJSDate(start).setZone(DEFAULT_TIMEZONE);
 	const endDt = end
-		? DateTime.fromJSDate(end)
-		: DateTime.fromJSDate(start).plus({ hours: 1 }); // DEFAULT to 1 hour duration
+		? DateTime.fromJSDate(end).setZone(DEFAULT_TIMEZONE)
+		: DateTime.fromJSDate(start).setZone(DEFAULT_TIMEZONE).plus({ hours: 1 }); // DEFAULT to 1 hour duration
 
 	if (startDt <= DateTime.now()) {
 		return null;
