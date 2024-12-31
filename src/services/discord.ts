@@ -7,10 +7,10 @@ import client from "../client";
 // TODO: zod
 type DiscordEventData = {
 	description: string;
-	endUtc: string;
+	endUtc: number;
 	guildId: string;
 	location: string;
-	startUtc: string;
+	startUtc: number;
 	title: string;
 };
 
