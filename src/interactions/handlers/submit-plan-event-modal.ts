@@ -45,6 +45,8 @@ export const execute = async (interaction: ModalSubmitInteraction) => {
 
 	const { startDate, startTime, endDate, endTime } = parsedDateTime;
 
+	console.info("parsedDateTime:", parsedDateTime);
+
 	const code = await createPotluckQuestEvent({
 		description,
 		discordUserId: interaction.user.id,

@@ -29,6 +29,7 @@ export const formatDateTimeForView = (date: Date | null): string => {
 };
 
 // TODO: Sometimes this passes when zod in PQ doesn't on event date TODAY.
+// TODO: Time zones are off.
 export const parseDateTimeInputForServices = (
 	dateTimeInput: string
 ): {
