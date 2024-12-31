@@ -40,6 +40,38 @@ export const createEvent = async (data: EventData): Promise<string | null> => {
 	}
 };
 
+export type UpdateEventData = {
+	code: string;
+	description?: string;
+	location?: string;
+	startDate?: string;
+	startTime?: string;
+	title?: string;
+};
+
+export const updateEvent = async (data: UpdateEventData): Promise<boolean> => {
+	try {
+		if (!process.env.POTLUCK_EVENT_API_URL) {
+			throw new Error("Missing environmental variable: POTLUCK_EVENT_API_URL");
+		}
+
+		const result = await fetch(process.env.POTLUCK_EVENT_API_URL, {
+			method: "PUT",
+			body: JSON.stringify(data),
+		});
+
+		if (!result.ok) {
+			console.warn("Failed to update Potluck Quest event:", result.status);
+		}
+
+		return result.ok;
+	} catch (error) {
+		console.error("Error updating Potluck Quest event:", error);
+
+		return false;
+	}
+};
+
 export const getSlots = async (code: string): Promise<Slot[] | null> => {
 	try {
 		if (!process.env.POTLUCK_SLOTS_API_URL) {

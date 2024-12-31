@@ -19,7 +19,7 @@ interface InteractionHandler {
 	execute: (interaction: Interaction) => Promise<void>;
 }
 
-interface GuildEventHandler {
+interface GuildScheduledEventUserHandler {
 	data: { eventName: string };
 	execute: (
 		event: GuildScheduledEvent | PartialGuildScheduledEvent,
@@ -27,7 +27,21 @@ interface GuildEventHandler {
 	) => Promise<void>;
 }
 
-type Handler = InteractionHandler | GuildEventHandler;
+interface GuildScheduledEventUpdateHandler {
+	data: { eventName: string };
+	execute: (
+		oldGuildScheduledEvent:
+			| GuildScheduledEvent
+			| PartialGuildScheduledEvent
+			| null,
+		newGuildScheduledEvent: GuildScheduledEvent | PartialGuildScheduledEvent
+	) => Promise<void>;
+}
+
+type Handler =
+	| InteractionHandler
+	| GuildScheduledEventUpdateHandler
+	| GuildScheduledEventUserHandler;
 
 declare module "discord.js" {
 	interface Client {

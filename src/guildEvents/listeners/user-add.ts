@@ -5,7 +5,7 @@ import {
 	PartialGuildScheduledEvent,
 	User,
 } from "discord.js";
-import { GuildEventHandler } from "../../@types/client";
+import { GuildScheduledEventUserHandler } from "../../@types/client";
 
 export const listener = async (
 	event:
@@ -23,7 +23,7 @@ export const listener = async (
 	}
 
 	try {
-		await (handler as GuildEventHandler).execute(event, user);
+		await (handler as GuildScheduledEventUserHandler).execute(event, user);
 	} catch (error) {
 		console.error(error);
 	}

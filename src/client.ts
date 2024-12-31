@@ -6,6 +6,7 @@ import { listener as modalSubmitListener } from "./interactions/listeners/modal-
 import { listener as buttonClickListener } from "./interactions/listeners/button-click";
 import { listener as eventUserAddListener } from "./guildEvents/listeners/user-add";
 import { listener as eventUserRemoveListener } from "./guildEvents/listeners/user-remove";
+import { listener as eventUpdateListener } from "./guildEvents/listeners/update";
 import collectHandlers from "./utilities/collect-handlers";
 
 const client = new Client({
@@ -29,7 +30,7 @@ client.on(Events.InteractionCreate, buttonClickListener);
 
 client.on(Events.GuildScheduledEventUserAdd, eventUserAddListener);
 client.on(Events.GuildScheduledEventUserRemove, eventUserRemoveListener);
-client.on(Events.GuildScheduledEventUpdate, async () => {});
+client.on(Events.GuildScheduledEventUpdate, eventUpdateListener);
 client.on(Events.GuildScheduledEventDelete, async () => {});
 
 client.login(process.env.BOT_TOKEN);
