@@ -28,6 +28,7 @@ export const formatDateTimeForView = (date: Date | null): string => {
 	return `${weekday} ${month} ${dayWithSuffix}・${time}`;
 };
 
+// TODO: Sometimes this passes when zod in PQ doesn't on event date TODAY.
 export const parseDateTimeInputForServices = (
 	dateTimeInput: string
 ): {
