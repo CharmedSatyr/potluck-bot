@@ -25,7 +25,7 @@ export const execute = async (
 		return;
 	}
 
-	const { code, description } = removeBlurbAndGetCode(
+	const { code, description: cleanedDescription } = removeBlurbAndGetCode(
 		newGuildScheduledEvent.description
 	);
 
@@ -49,7 +49,7 @@ export const execute = async (
 		newGuildScheduledEvent.description &&
 		oldGuildScheduledEvent?.description !== newGuildScheduledEvent.description
 	) {
-		update.description = newGuildScheduledEvent.description;
+		update.description = cleanedDescription;
 	}
 
 	if (
