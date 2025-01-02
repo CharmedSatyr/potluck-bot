@@ -65,6 +65,8 @@ export const parseDateTimeInputForServices = (
 		return null;
 	}
 
+	console.log("Timezone offset:", new Date().getTimezoneOffset());
+
 	return {
 		startDate: startDt.toFormat("yyyy-MM-dd"),
 		startTime: startDt.toFormat("HH:mm:ss"),
