@@ -9,7 +9,7 @@
 		"lint": "npx eslint src/**/*.ts --fix ",
 		"register": "npx ts-node src/register.ts",
 		"start": "node dist/server.js",
-		"test": "TZ=America/Los_Angeles jest src"
+		"test": "TZ=UTC jest src"
 	},
 	"repository": {
 		"type": "git",

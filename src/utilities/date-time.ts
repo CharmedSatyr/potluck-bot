@@ -35,15 +35,17 @@ export const parseDateTimeInputForServices = (
 	dateTimeInput: string
 ): {
 	startDate: string;
-	startUtcMs: number;
+	startUtcMs: any; // number;
 	startTime: string;
 	endDate: string;
 	endTime: string;
-	endUtcMs: number;
+	endUtcMs: any; //number;
 } | null => {
-	const parsed = chrono.parse(dateTimeInput, new Date(), {
-		forwardDate: true,
-	})[0];
+	const parsed = chrono.parse(
+		dateTimeInput,
+		{ instant: new Date(), timezone: "PT" },
+		{ forwardDate: true }
+	)[0];
 
 	if (!parsed) {
 		return null;
@@ -65,14 +67,12 @@ export const parseDateTimeInputForServices = (
 		return null;
 	}
 
-	console.log("Timezone offset:", new Date().getTimezoneOffset());
-
 	return {
-		startDate: startDt.toFormat("yyyy-MM-dd"),
-		startTime: startDt.toFormat("HH:mm:ss"),
-		startUtcMs: startDt.toUTC().toMillis(),
 		endDate: endDt.toFormat("yyyy-MM-dd"),
 		endTime: endDt.toFormat("HH:mm:ss"),
 		endUtcMs: endDt.toUTC().toMillis(),
+		startDate: startDt.toFormat("yyyy-MM-dd"),
+		startTime: startDt.toFormat("HH:mm:ss"),
+		startUtcMs: startDt.toUTC().toMillis(),
 	};
 };
