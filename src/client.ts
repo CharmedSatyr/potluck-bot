@@ -7,6 +7,7 @@ import { listener as buttonClickListener } from "./interactions/listeners/button
 import { listener as eventUserAddListener } from "./guildEvents/listeners/user-add";
 import { listener as eventUserRemoveListener } from "./guildEvents/listeners/user-remove";
 import { listener as eventUpdateListener } from "./guildEvents/listeners/update";
+import { listener as eventDeleteListener } from "./guildEvents/listeners/delete";
 import collectHandlers from "./utilities/collect-handlers";
 
 const client = new Client({
@@ -31,7 +32,7 @@ client.on(Events.InteractionCreate, buttonClickListener);
 client.on(Events.GuildScheduledEventUserAdd, eventUserAddListener);
 client.on(Events.GuildScheduledEventUserRemove, eventUserRemoveListener);
 client.on(Events.GuildScheduledEventUpdate, eventUpdateListener);
-client.on(Events.GuildScheduledEventDelete, async () => {});
+client.on(Events.GuildScheduledEventDelete, eventDeleteListener);
 
 client.login(process.env.BOT_TOKEN);
 
