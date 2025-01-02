@@ -2,6 +2,7 @@ import {
 	Client,
 	Collection,
 	CommandInteraction,
+	Events,
 	GuildScheduledEvent,
 	Interaction,
 	PartialGuildScheduledEvent,
@@ -20,7 +21,11 @@ interface InteractionHandler {
 }
 
 interface GuildScheduledEventUserHandler {
-	data: { eventName: string };
+	data: {
+		eventName:
+			| Events.GuildScheduledEventUserAdd
+			| Events.GuildScheduledEventUserRemove;
+	};
 	execute: (
 		event: GuildScheduledEvent | PartialGuildScheduledEvent,
 		user: User
@@ -28,7 +33,7 @@ interface GuildScheduledEventUserHandler {
 }
 
 interface GuildScheduledEventUpdateHandler {
-	data: { eventName: string };
+	data: { eventName: Events.GuildScheduledEventUpdate };
 	execute: (
 		oldGuildScheduledEvent:
 			| GuildScheduledEvent
@@ -38,9 +43,17 @@ interface GuildScheduledEventUpdateHandler {
 	) => Promise<void>;
 }
 
+interface GuildScheduledEventDeleteHandler {
+	data: { eventName: Events.GuildScheduledEventDelete };
+	execute: (
+		guildScheduledEvent: GuildScheduledEvent | PartialGuildScheduledEvent | null
+	) => Promise<void>;
+}
+
 type Handler =
 	| InteractionHandler
 	| GuildScheduledEventUpdateHandler
+	| GuildScheduledEventDeleteHandler
 	| GuildScheduledEventUserHandler;
 
 declare module "discord.js" {
