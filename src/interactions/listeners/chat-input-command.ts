@@ -17,7 +17,7 @@ export const listener = async (interaction: Interaction<CacheType>) => {
 
 	if (!hasPotluckAccount) {
 		const signupUrl = process.env.POTLUCK_QUEST_BASE_URL!.concat(
-			process.env.POTLUCK_QUEST_AUTH_SETUP!
+			process.env.POTLUCK_QUEST_AUTH_SETUP_ROUTE!
 		);
 
 		await interaction.reply({
