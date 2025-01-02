@@ -35,11 +35,11 @@ export const parseDateTimeInputForServices = (
 	dateTimeInput: string
 ): {
 	startDate: string;
-	startUtcMs: any; // number;
+	startUtcMs: number;
 	startTime: string;
 	endDate: string;
 	endTime: string;
-	endUtcMs: any; //number;
+	endUtcMs: number;
 } | null => {
 	const parsed = chrono.parse(
 		dateTimeInput,
