@@ -5,9 +5,9 @@ import { Slot } from "../@types/slot";
 type EventData = {
 	description: string;
 	discordUserId: string;
+	endUtcMs?: number;
 	location: string;
-	startDate: string;
-	startTime: string;
+	startUtcMs?: number;
 	title: string;
 };
 
@@ -45,9 +45,9 @@ export const createEvent = async (data: EventData): Promise<string | null> => {
 export type UpdateEventData = {
 	code: string;
 	description?: string;
+	endUtcMs?: number;
 	location?: string;
-	startDate?: string;
-	startTime?: string;
+	startUtcMs?: number;
 	title?: string;
 };
 

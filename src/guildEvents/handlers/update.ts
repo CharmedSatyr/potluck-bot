@@ -6,8 +6,6 @@ import {
 } from "discord.js";
 import { removeBlurbAndGetCode } from "../../utilities/description-blurb";
 import { updateEvent, UpdateEventData } from "../../services/potluck-quest";
-import { DateTime } from "luxon";
-import { DEFAULT_TIMEZONE } from "../../constants";
 
 export const data = { eventName: Events.GuildScheduledEventUpdate };
 
@@ -65,13 +63,15 @@ export const execute = async (
 		oldGuildScheduledEvent?.scheduledStartTimestamp !==
 			newGuildScheduledEvent.scheduledStartTimestamp
 	) {
-		const dateTime = DateTime.fromMillis(
-			newGuildScheduledEvent.scheduledStartTimestamp,
-			{ zone: DEFAULT_TIMEZONE }
-		);
+		update.startUtcMs = newGuildScheduledEvent.scheduledStartTimestamp;
+	}
 
-		update.startDate = dateTime.toFormat("yyyy-MM-dd");
-		update.startTime = dateTime.toFormat("hh:mm:ss");
+	if (
+		newGuildScheduledEvent.scheduledEndTimestamp &&
+		oldGuildScheduledEvent?.scheduledEndTimestamp !==
+			newGuildScheduledEvent.scheduledEndTimestamp
+	) {
+		update.endUtcMs = newGuildScheduledEvent.scheduledEndTimestamp;
 	}
 
 	if (Object.keys(update).length <= 1) {

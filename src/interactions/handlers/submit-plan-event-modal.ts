@@ -48,9 +48,9 @@ export const execute = async (interaction: ModalSubmitInteraction) => {
 	const code = await createPotluckQuestEvent({
 		description,
 		discordUserId: interaction.user.id,
+		endUtcMs,
 		location,
-		startDate,
-		startTime,
+		startUtcMs,
 		title,
 	});
 
